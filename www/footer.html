@@ -1,0 +1,103 @@
+<script> 	  
+$(document).ready(function(){
+	
+ 	if (localStorage.ut == "storemanager") {
+	$(".storeftr").show();
+	$(".depotftr").hide();
+	$(".mangrftr").hide();
+	$(".audtrftr").hide();
+	} 
+	if (localStorage.ut == "depomanager") {
+	$(".depotftr").show();
+	$(".storeftr").hide();
+	$(".mangrftr").hide();
+	$(".audtrftr").hide();
+	}
+	if (localStorage.ut == "manager") {
+	$(".depotftr").hide();
+	$(".storeftr").hide();
+	$(".mangrftr").show();
+	$(".audtrftr").hide();
+	}
+	if (localStorage.ut == "auditor") {
+	$(".depotftr").hide();
+	$(".storeftr").hide();
+	$(".mangrftr").hide();
+	$(".audtrftr").show();
+	}
+ 
+}); 
+</script>
+<!--- FOOTER START -->
+      <footer class="footer section-padding">
+        <div class="container text-center">
+          <div class="home-screen">
+            <div class="home-screen-icons row ">
+              <div class="col-20 tablet-20"> <a href="profile.html" class="">
+                <div class="icon-div"> <i class="fa fa-user grow"></i> </div>
+                </a> </div>
+               	<div class="storeftr" id="store">
+                <div class="col-20 tablet-20"> <a href="store-add-stock-out.html" class="">
+                <div class="icon-div"> <i class="fa fa-location-arrow grow"></i> </div>
+                </a> </div>
+                <div class="col-20 tablet-20"> <a href="store-accept-stock.html" class="">
+                <div class="icon-div"> <i class="fa fa-file grow"></i> </div>
+                </a> </div>
+                <div class="col-20 tablet-20"> <a href="store-stock-report.html" class="">
+                <div class="icon-div"> <i class="fa fa-bar-chart grow"></i> </div>
+                </a> </div>
+				 <div class="col-20 tablet-20"> <a href="store-request-stock.html">
+                <div class="icon-div"> <i class=" fa fa-reply grow"></i> </div>
+                </a> </div>
+                </div>
+                
+                <div class="depotftr">
+                <div class="col-20 tablet-20"> <a href="depot-add-stock.html" class="">
+                <div class="icon-div"> <i class="fa fa-plus grow"></i> </div>
+                </a> </div>
+                <div class="col-20 tablet-20"> <a href="depot-manage-stock.html" class="">
+                <div class="icon-div"> <i class="fa fa-life-ring grow"></i> </div>
+                </a> </div>
+				<div class="col-20 tablet-20"> <a href="depot-view-stock-request.html" class="">
+                <div class="icon-div"> <i class="fa fa-tasks grow"></i> </div>
+                </a> </div>
+				 <div class="col-20 tablet-20"> <a href="depot-view-bl-lpl-report.html">
+                <div class="icon-div"> <i class=" fa fa-glass grow"></i> </div>
+                </a> </div>
+                </div>
+                
+                <div class="mangrftr">
+                <div class="col-20 tablet-20"> <a href="manger-add-cash-expendeture.html" class="">
+                <div class="icon-div"> <i class="fa fa-edit grow"></i> </div>
+                </a> </div>
+                <div class="col-20 tablet-20"> <a href="manger-add-bank-deposit.html" class="">
+                <div class="icon-div"> <i class="fa fa-pencil grow"></i> </div>
+                </a> </div>
+				<div class="col-20 tablet-20"> <a href="manger-add-osbc-chalan.html" class="">
+                <div class="icon-div"> <i class="fa fa-eyedropper grow"></i> </div>
+                </a> </div>
+				 <div class="col-20 tablet-20"> <a href="manger-cashin-hand-report.html">
+                <div class="icon-div"> <i class=" fa fa-inr grow"></i> </div>
+                </a> </div>
+                </div>
+				<div class="audtrftr">
+                <div class="col-20 tablet-20"> <a href="auditor-stock-report-issue.html" class="">
+                <div class="icon-div"> <i class="fa fa-edit grow"></i> </div>
+                </a> </div>
+                <div class="col-20 tablet-20"> <a href="auditor-cash-report-issue.html" class="">
+                <div class="icon-div"> <i class="fa fa-pencil grow"></i> </div>
+                </a> </div>
+				<div class="col-20 tablet-20"> <a href="auditor-view-store-sale.html" class="">
+                <div class="icon-div"> <i class="fa fa-tasks grow"></i> </div>
+                </a> </div>
+				 <div class="col-20 tablet-20"> <a href="auditor-sale-report-issue.html">
+                <div class="icon-div"> <i class=" fa fa-eyedropper grow"></i> </div>
+                </a> </div>
+                </div>
+             
+              
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!--- FOOTER END -->

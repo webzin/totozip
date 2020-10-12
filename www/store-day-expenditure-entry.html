@@ -1,0 +1,263 @@
+	<!DOCTYPE html>
+<html>
+   <head>
+        <meta charset="utf-8">
+        <title> Stock</title>
+        <meta content="width=device-width,initial-scale=1" name="viewport">
+        <meta name="generator" content="SensationThemes">
+        <link href="css/normalize.css" rel="stylesheet" type="text/css">
+        <link href="css/webflow.css" rel="stylesheet" type="text/css">
+        <link href="css/styles.css" rel="stylesheet" type="text/css">
+        <link href="images/logo32.png" rel="shortcut icon" type="image/x-icon">
+        <link href="images/logo.png" rel="apple-touch-icon">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+        <link href="css/ionicons.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+        
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+ 	    <script type="text/javascript" src="js/jquery.validate.js"></script>
+        <script src="js/modernizr.js" type="text/javascript"></script>
+        <script src="js/webflow.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/scripts.js"></script> 
+        <script type="text/javascript">
+   	var url = window.location.pathname;
+	var filename = url.substring(url.lastIndexOf('/') + 1);
+    if (localStorage.login == "true" && filename == 'login.html') {
+        window.location.href = "profile.html";
+    } else if (localStorage.login == null) {
+        window.location.href = "login.html";
+    } else if (localStorage.login == "false" && filename != 'login.html') {
+        window.location.href = "login.html";
+    }
+  
+    $(function(){
+      $("#navbarin").load("nav.html"); 
+    });
+	 $(function(){
+      $("#footer").load("footer.html"); 
+    });
+	
+	$(document).ready(function(){
+
+	$('#bchalan').hide(); 
+	$('#mgrname').hide(); 
+	$('#storetotalcash').hide(); 
+		$('#exphead').change(function(){
+			if($('#exphead').val() == 'BD') {
+				$('#bchalan').show(); 
+				$('#storetotalcash').show(); 
+				$('#mgrname').hide(); 
+				
+			} 
+			else if($('#exphead').val() == 'TM') {
+				$('#mgrname').show(); 
+				$('#bchalan').hide();
+				$('#storetotalcash').show(); 
+			} 
+			else {
+				$('#bchalan').hide(); 
+				$('#mgrname').hide(); 
+				$('#storetotalcash').hide(); 
+			}
+		});	
+		
+		$('#manager_id').load(hosturl+'data.php?act=getmanager', '', function(response, status, xhr) { });
+		$('#storetotalcash').load(hosturl+'data.php?act=getstore_cash&store_id='+localStorage.storeid, '', function(response, status, xhr) { }); 
+
+   var i = 1;
+            $('#add').click(function(){
+                //alert(localStorage.id);
+           
+				
+			
+                $('#dynamic_field').append("<div class='w-col' id='row"+i+"'><div class='w-col-7 pullleft'><label class='label-form' for='exphead-field'>Expense Head:</label><select class='input-form select w-select' name='exphead[]' id='exphead"+i+"'  required><option value=''>Select Expense Head</option><option value='SE'>Store Expenses</option><option value='BD'>Bank Deposit</option><option value='TM'>Cash To Manager</option></select><label id='storetotalcash"+i+"' style=' color:#060'></label><div class='separator-fields'></div></div><div class='w-col-5 pullleft'><label class='label-form' for='amount'>Amount:</label><input class='input-form w-input' data-name='Amount' id='amount"+i+"' maxlength='256' name='amount[]'  type='number' value='' required><div class='separator-fields'></div></div><div class='w-col-12 pullleft' style='margin-bottom:5%;' id='bchalan"+i+"'><label class='label-form' for='chalanfile' style='margin-bottom:2%;'>Bank Chalan:</label><input name='chalanfile"+i+"' id='chalanfile"+i+"' class='form-control' type='file' required><div class='separator-fields'></div></div><div class='w-col-12 pullleft' id='mgrname"+i+"'><label class='label-form' for='amount'>Select manager</label><select class='input-form select w-select' name='manager_id[]' id='manager_id"+i+"'  required> </select><div class='separator-fields'></div></div><div class='w-col-10 pullleft'><label class='label-form' for='amount'>Remark:</label><input class='input-form w-input' data-name='Remark' id='remark"+i+"' maxlength='256' name='remark[]'  type='text' value='' required><div class='separator-fields'></div></div><div class='w-col-1 pullleft'><input id='"+i+"' class='action-button w-button btn_remove' type='button' name='remove' value='-' ></div></div>");
+			
+				$('#bchalan'+i).hide(); 
+				$('#mgrname'+i).hide(); 
+				$('#storetotalcash'+i).hide();  
+				var expheadid = '#exphead'+i; 
+				var bchalanid = '#bchalan'+i;
+				var mgrnameid = '#mgrname'+i;
+				var storetotalcash = '#storetotalcash'+i;
+				$('#exphead'+i).change(function(){
+					if($(expheadid).val() == 'BD') {
+						$(bchalanid).show(); 
+						$(storetotalcash).show(); 
+						$(mgrnameid).hide(); 
+						
+					} 
+					else if($(expheadid).val() == 'TM') {
+						$(mgrnameid).show(); 
+						$(bchalanid).hide();
+						$(storetotalcash).show(); 
+					} 
+					else {
+						$(bchalanid).hide(); 
+						$(mgrnameid).hide();
+						$(storetotalcash).hide();   
+					}
+		
+						});				
+			
+			$('#manager_id'+i).load(hosturl+'data.php?act=getmanager', '', function(response, status, xhr) { });
+			$('#storetotalcash'+i).load(hosturl+'data.php?act=getstore_cash&store_id='+localStorage.storeid, '', function(response, status, xhr) { }); 
+			
+			i++;
+			});
+
+
+            $(document).on('click','.btn_remove', function(){
+                var button_id = $(this).attr("id");               
+				$("#row"+button_id+"").remove();
+				i = i -1;
+            });
+
+ $('#storecashexp').validate({ // initialize the plugin
+        rules: {
+            exphead: {
+                required: true,
+            },
+			remark: {
+                required: true,
+            },
+			amount: {
+                required: true,
+				number: true,
+            } 
+			 },
+		 
+       
+ 
+
+    submitHandler: function(form) {
+ 
+			var fd = new FormData(form);
+			
+			//var store_mgr = localStorage.getItem('uid');
+			var store_id = localStorage.storeid;
+			/*var files = $('#chalanfile')[0].files[0];
+			fd.append('chalanfile',files);*/
+			fd.append('store_id',store_id);
+			fd.append('storemanagerexpenditure','Add Expense');
+			//fd.append('store_mgr',store_mgr);
+			
+        $.ajax({
+			url: hosturl+"auth1.php",
+			type: "POST",
+			data: fd,
+			contentType: false,
+			processData: false,
+			//data: $('#additem').serialize(),
+            success: function(data, status) {
+				var resp = $.parseJSON(data);
+				$('html, body').animate({ scrollTop: $('#main-stack').offset().top }, 500);
+				$('#sucessMessage').html(resp.value1);
+				$('#sucessMessage').show();
+				
+				if(resp.msg=="success"){
+					$("#storecashexp")[0].reset(); 
+				}
+				
+				if(resp.value2=="S"){
+				//window.location.href = "depot-add-stock-in.html";
+				}
+				 }            
+        });
+    }
+
+});
+
+});
+     </script>  
+    
+   </head>
+   <body>
+      <section class="mobile-wrapper">
+         <div class="w-embed"></div>
+         <div class="page-content" id="main-stack">
+            <div class="navbar w-nav" data-animation="default" data-collapse="all" data-duration="700" id="navbarin">
+         
+         </div>
+            <div class="body padding">
+               <div class="w-form">
+               <div id="sucessMessage"> </div>
+                <form action="#" data-name="Select a Expenditure" id="storecashexp" name="storecashexp">
+                <div class="separator-button-input"></div>
+                <div id="dynamic_field">
+                <div class="w-col">
+                      <div class="w-col-7 pullleft">
+                        <label class="label-form" for="exphead-field">Expense Head:</label>
+                        <select class="input-form select w-select" name="exphead[]" id="exphead"  required>
+							<option value="">Select Expense Head</option>
+                            <option value="SE">Store Expenses</option>
+                            <option value="BD">Bank Deposit</option>
+                            <option value="TM">Cash To Manager</option>
+
+						</select>
+                        <label id="storetotalcash" style=" color:#060"></label>
+                        <div class="separator-fields"></div>
+                     </div>
+                 
+					  <div class="w-col-5 pullleft"> 
+                        <label class="label-form" for="amount">Amount:</label>
+						 <input class="input-form w-input" data-name="Amount" id="amount" maxlength="256" name="amount[]"  type="number" value="" required>
+						 
+                        <div class="separator-fields"></div>
+                      </div>
+                      
+					  <div class="w-col-12 pullleft" style="margin-bottom:5%;" id="bchalan"> 
+                        <label class="label-form" for="chalanfile" style="margin-bottom:2%;">Bank Chalan:</label>
+						  <input name="chalanfile" id="chalanfile" class="form-control" type="file" required>  
+						 
+                        <div class="separator-fields"></div>
+                      </div>                      
+
+					  <div class="w-col-12 pullleft" id="mgrname"> 
+                        <label class="label-form" for="amount">Select manager</label>
+						<select class="input-form select w-select" name="manager_id[]" id="manager_id"  required> </select>
+                         
+						 
+                        <div class="separator-fields"></div>
+                      </div>                      
+
+                      
+                      <div class="w-col-12 pullleft"> 
+                        <label class="label-form" for="amount">Remark:</label>
+						 <input class="input-form w-input" data-name="Remark" id="remark" maxlength="256" name="remark[]"  type="text" value="" required>
+						 
+                        <div class="separator-fields"></div>
+                      </div>
+                      
+                     </div>
+                 
+					  
+                </div>                
+                
+                </div>
+
+                
+                
+                <input class="action-button w-button" data-wait="Please wait..." type="submit" value="Add Cash" name="storemanagerexpenditure" id="storemanagerexpenditure" style="width:30%">
+                <input class="action-button w-button" data-wait="Please wait..." type="button" value="+" name="add" id="add" style="width:10%"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+                <div class="separator-button"></div>
+                </form>
+               </div>
+                
+
+            </div>
+         </div>
+         <div class="loading-mask page-content" id="new-stack">
+            <div class="loading-icon">
+               <div class="icon ion-load-d navbar-button-icon"></div>
+            </div>
+         </div>
+      </section>
+      <script src="js/webfont.js"></script><script type="text/javascript">WebFont.load({
+         google: {
+           families: ["Montserrat:400,700"]
+         }
+         });
+      </script> 
+<div id="footer"></div>
+   </body>
+</html>

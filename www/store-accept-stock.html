@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+   <head>
+            <meta charset="utf-8">
+            <title>View Stock Requests</title>
+            <meta content="Profile" property="og:title">
+            <meta content="width=device-width,initial-scale=1" name="viewport">
+            <meta name="generator" content="SensationThemes">
+            <link href="css/normalize.css" rel="stylesheet" type="text/css">
+            <link href="css/webflow.css" rel="stylesheet" type="text/css">
+            <link href="css/styles.css" rel="stylesheet" type="text/css">
+            <link href="images/logo32.png" rel="shortcut icon" type="image/x-icon">
+            <link href="images/logo.png" rel="apple-touch-icon">
+            <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+            <link href="css/ionicons.min.css" rel="stylesheet" type="text/css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+                 <script src="js/jquery.min.js" type="text/javascript"></script>
+ 	    <script type="text/javascript" src="js/jquery.validate.js"></script>
+        <script src="js/modernizr.js" type="text/javascript"></script>
+        <script src="js/webflow.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/scripts.js"></script> 
+      <script type="text/javascript">
+    var url = window.location.pathname;
+    var filename = url.substring(url.lastIndexOf('/') + 1);
+    if (localStorage.login == "true" && filename == 'login.html') {
+        window.location.href = "profile.html";
+    } else if (localStorage.login == null) {
+        window.location.href = "login.html";
+    } else if (localStorage.login == "false" && filename != 'login.html') {
+        window.location.href = "login.html";
+    }
+    </script>
+ <script> 
+	$(function(){
+	$("#navbarin").load("nav.html"); 
+	}); 
+	
+	$(function(){
+	$("#footer").load("footer.html"); 
+	}); 
+	
+	$(function(){
+	var store_id = localStorage.storeid;
+	$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&type=acc&storeid="+store_id); 
+	$("#month").load(hosturl+"mobdata.php?action=getMonthStReq&storeid="+store_id); 
+	$("#year").load(hosturl+"mobdata.php?action=getYearStReq&storeid="+store_id); 
+
+	}); 
+	$(window).load(function() {
+	setInterval(function() {
+	$("#loader").fadeOut("slow")
+	}, 3000);
+	});
+
+		$(document).on('change', '#month', function(){
+			var month = $( "#month option:selected" ).val();
+			var year = $( "#year option:selected" ).val();
+			
+			$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&type=acc&storeid="+localStorage.storeid+"&month="+month+"&year="+year); 
+		});		
+		$(document).on('change', '#year', function(){
+			var month = $( "#month option:selected" ).val();
+			var year = $( "#year option:selected" ).val();
+			
+			$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&type=acc&storeid="+localStorage.storeid+"&month="+month+"&year="+year); 
+		});
+		
+		$(document).ready(function(){
+			
+			$('#stockaccept').validate({ // initialize the plugin
+        rules: {
+ 
+			storechalanfile: {
+                required: true,
+            } 
+			 },
+		 
+       
+ 
+
+    submitHandler: function(form) {
+ 
+			var fd = new FormData(form);
+			
+			var store_mgr = localStorage.getItem('uid');
+			var store_id = localStorage.storeid;
+			/*var files = $('#chalanfile')[0].files[0];
+			fd.append('chalanfile',files);*/
+			fd.append('store_id',store_id);
+			fd.append('store_mgr',store_mgr);
+			fd.append('stock_accept','accept');
+			
+        $.ajax({
+			url: hosturl+"auth1.php",
+			type: "POST",
+			data: fd,
+			contentType: false,
+			processData: false,
+			//data: $('#additem').serialize(),
+            success: function(data, status) {
+				var resp = $.parseJSON(data);
+				$('html, body').animate({ scrollTop: $('#main-stack').offset().top }, 500);
+				$('#sucessMessage').html(resp.value1);
+				$('#sucessMessage').show();
+				
+				if(resp.msg=="success"){
+					$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&type=acc&storeid="+localStorage.storeid); 
+				}
+				
+				if(resp.value2=="S"){
+				//window.location.href = "depot-add-stock-in.html";
+				}
+				 }            
+        });
+    }
+
+});
+
+});
+					
+    </script> 
+
+   </head>
+   <body>
+      <section class="mobile-wrapper">
+         <div class="w-embed"></div>
+         <div class="page-content" id="main-stack">
+         <div class="navbar w-nav" data-animation="default" data-collapse="all" data-duration="700" id="navbarin">
+         
+         </div>
+         <form action="#" data-name="accept stock" id="stockaccept" name="stockaccept">
+         <div class="body padding">
+          <div class="w-form">
+          <div id="sucessMessage"> </div>
+          <div class="w50">
+          <label class="label-form" for="month">Filter By Month:</label>
+          <select class="input-form select w-select" name="month" id="month"  > </select>
+          </div>
+          <div class="w50">
+          <label class="label-form" for="year">Filter By Year:</label>
+          <select class="input-form select w-select" name="year" id="year"  > </select>
+          </div>
+          <div class="w50" style="margin-bottom:5%">
+          	<input name="storechalanfile" id="storechalanfile" class="form-control" type="file" style="width:80%" required>
+          </div>
+          <div class="w50" style="margin-bottom:5%">
+          	<input class="action-button w-button" data-wait="Please wait..." type="submit" value="Accept" name="acceptstock" id="acceptstock" style="width:40%">
+          </div>
+          </div>
+          </div> 
+            <div class="body" id="loaddata">
+            
+            
+                        </div>
+        </form>
+        </div>
+         
+         <div id="loader">
+         <div class="lds-dual-ring"></div>
+         </div>
+      </section>
+      <script src="js/webfont.js"></script><script type="text/javascript">WebFont.load({
+         google: {
+           families: ["Montserrat:400,700"]
+         }
+         });
+     </script>
+      <div id="footer"></div>
+   </body>
+</html>

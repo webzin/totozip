@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+   <head>
+            <meta charset="utf-8">
+            <title>View Stock Requests</title>
+            <meta content="Profile" property="og:title">
+            <meta content="width=device-width,initial-scale=1" name="viewport">
+            <meta name="generator" content="SensationThemes">
+            <link href="css/normalize.css" rel="stylesheet" type="text/css">
+            <link href="css/webflow.css" rel="stylesheet" type="text/css">
+            <link href="css/styles.css" rel="stylesheet" type="text/css">
+            <link href="images/logo32.png" rel="shortcut icon" type="image/x-icon">
+            <link href="images/logo.png" rel="apple-touch-icon">
+            <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+            <link href="css/ionicons.min.css" rel="stylesheet" type="text/css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+         <script src="js/jquery.min.js" type="text/javascript"></script>
+ 		<script src="js/modernizr.js" type="text/javascript"></script>
+	   <script src="js/webflow.js" type="text/javascript"></script>
+	   <script type="text/javascript" src="js/scripts.js"></script> 
+      <script type="text/javascript">
+    var url = window.location.pathname;
+    var filename = url.substring(url.lastIndexOf('/') + 1);
+    if (localStorage.login == "true" && filename == 'login.html') {
+        window.location.href = "profile.html";
+    } else if (localStorage.login == null) {
+        window.location.href = "login.html";
+    } else if (localStorage.login == "false" && filename != 'login.html') {
+        window.location.href = "login.html";
+    }
+    </script>
+ <script> 
+	$(function(){
+	$("#navbarin").load("nav.html"); 
+	}); 
+	
+	$(function(){
+	$("#footer").load("footer.html"); 
+	}); 
+	
+	$(function(){
+	var store_id = localStorage.storeid;
+	$("#loaddata").load(hosturl+"mobdata.php?action=bllplrptview"); 
+	$('#store_id').load(hosturl+'mobdata.php?action=store');
+	$('#year').load(hosturl+'mobdata.php?action=bllplyear');
+	}); 
+	$(window).load(function() {
+	setInterval(function() {
+	$("#loader").fadeOut("slow")
+	}, 500);
+	});
+	
+	
+		$(document).on('change', '#store_id', function(){
+			var st_id = $('#store_id').val();
+			var yr = $('#year').val();
+			
+			if(yr != '')
+			{
+				$('#loaddata').load(hosturl+'mobdata.php?action=bllplrptview&store_id='+st_id+'&selyear='+yr);
+			}
+			else
+			{
+				$('#loaddata').load(hosturl+'mobdata.php?action=bllplrptview&store_id='+st_id);
+			}
+			
+		});
+		$(document).on('change', '#year', function(){
+			var st_id = $('#store_id').val();
+			var yr = $('#year').val();
+			if(st_id != '')
+			{
+				$('#loaddata').load(hosturl+'mobdata.php?action=bllplrptview&store_id='+st_id+'&selyear='+yr);
+			}
+			else
+			{
+				$('#loaddata').load(hosturl+'mobdata.php?action=bllplrptview&selyear='+yr);
+			}
+		});
+    </script> 
+
+   </head>
+   <body>
+      <section class="mobile-wrapper">
+         <div class="w-embed"></div>
+         <div class="page-content" id="main-stack">
+         <div class="navbar w-nav" data-animation="default" data-collapse="all" data-duration="700" id="navbarin">
+         
+         </div>
+          <div id="filter">
+   <label class="label-form" for="store_id">Filter By Store:</label>
+          <select class="input-form select w-select" name="store_id" id="store_id"  > </select>
+             <label class="label-form" for="storename">Filter By year:</label>
+          <select class="input-form select w-select" name="year" id="year"  > </select>
+         </div>
+            <div id="loaddata">
+            
+            
+                        </div>
+        </div>
+         
+         <div id="loader">
+         <div class="lds-dual-ring"></div>
+         </div>
+      </section>
+      <script src="js/webfont.js"></script><script type="text/javascript">WebFont.load({
+         google: {
+           families: ["Montserrat:400,700"]
+         }
+         });
+     </script>
+      <div id="footer"></div>
+   </body>
+</html>
