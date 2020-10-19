@@ -2,14 +2,13 @@
 <html>
    <head>
             <meta charset="utf-8">
-            <title>View Stock Requests</title>
+            <title>Day Cash Report</title>
             <meta content="Profile" property="og:title">
             <meta content="width=device-width,initial-scale=1" name="viewport">
             <meta name="generator" content="SensationThemes">
             <link href="css/normalize.css" rel="stylesheet" type="text/css">
             <link href="css/webflow.css" rel="stylesheet" type="text/css">
             <link href="css/styles.css" rel="stylesheet" type="text/css">
-            <link href="css/stocktransferpopup.css" rel="stylesheet" type="text/css">
             <link href="images/logo32.png" rel="shortcut icon" type="image/x-icon">
             <link href="images/logo.png" rel="apple-touch-icon">
             <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -40,72 +39,20 @@
 	}); 
 	
 	$(function(){
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	const bepid = urlParams.get('bepari_id')
+ 	//console.log(bepid);
 	var store_id = localStorage.storeid;
-	$("#loaddata").load(hosturl+"mobdata.php?action=stmanagerstrstockview&store_id="+store_id); 
-	//$('#brand').load(hosturl+'mobdata.php?action=br');
-	$('#itmtype').load(hosturl+'mobdata.php?action=wtype');
-	
+	$("#loaddata").load(hosturl+"mobdata.php?action=getbepariaddress&bepari_id="+bepid); 
+
 	}); 
-		 
 	$(window).load(function() {
 	setInterval(function() {
 	$("#loader").fadeOut("slow")
-	}, 1000);
+	}, 3000);
 	});
-	
-	
 
-		
-		$(document).on('change', '#brand', function(){
-			var st_id = localStorage.storeid;
-			var itm_nm = $( "#brand option:selected" ).text();
-			itm_nm = itm_nm.replace(' ','%20');
-			var itm_tp = $( "#itmtype option:selected" ).val();
-			var itemtypes = '';
-			if($( "#brand option:selected" ).val() == '')
-			{
-				itm_nm = '';
-			}
-			if($( "#itmtype option:selected" ).val() != '')
-			{
-				itemtypes = "&item_type="+itm_tp;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=stmanagerstrstockview&store_id='+st_id);
-			}
-
-			$('#loaddata').load(hosturl+'mobdata.php?action=stmanagerstrstockview&store_id='+st_id+itemtypes+'&item_nm='+itm_nm);
-		});	
-	
-		$(document).on('change', '#itmtype', function(){
-			$("#brand" ).val('');
-			var itm_nm = '';
-			$('#brand').load(hosturl+'data.php?act=winetype&type_id='+this.value, '', function(response, status, xhr) { });
-			
-			var brands = '';			
-			var st_id = localStorage.storeid;
-
-			var itm_tp = $( "#itmtype option:selected" ).val();
-			var storid = '';
-			var itemtypes = '';
-			var brands = '';
-			if($("#brand option:selected" ).val() != '')
-			{
-				itm_nm = $( "#brand option:selected" ).text();
-				itm_nm = itm_nm.replace(' ',' ');
-
-				brands = '&item_nm='+itm_nm;
-
-			}
-			
-			//	alert($( "#brand option:selected" ).val());
-			$('#loaddata').load(hosturl+'mobdata.php?action=stmanagerstrstockview&store_id='+st_id+'&item_type='+itm_tp+storid+brands);
-			
-		});	
-	
-	function myFunction(id) {
-  
-  var popup = document.getElementById("myPopup"+id);
-  popup.classList.toggle("show");
-}
     </script> 
 
    </head>
@@ -116,20 +63,8 @@
          <div class="navbar w-nav" data-animation="default" data-collapse="all" data-duration="700" id="navbarin">
          
          </div>
-          <div class="body padding">
-          <div class="w-form">
-           <div class="w50">
-          <label class="label-form" for="itmtype">Filter By Type:</label>
-          <select class="input-form select w-select" name="itmtype" id="itmtype"  > </select>
-          </div>
-
-          <div class="w50">
-          <label class="label-form" for="brand">Filter By Brand:</label>
-          <select class="input-form select w-select" name="brand" id="brand"  > </select>
-          </div>
-          
-          </div>
-          </div>
+         
+         <p style="margin-top:2%">&nbsp;</p> 
             <div class="body" id="loaddata">
             
             

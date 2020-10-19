@@ -2,7 +2,7 @@
 <html>
    <head>
         <meta charset="utf-8">
-        <title>Add Exependiture</title>
+        <title> Stock</title>
         <meta content="width=device-width,initial-scale=1" name="viewport">
         <meta name="generator" content="SensationThemes">
         <link href="css/normalize.css" rel="stylesheet" type="text/css">
@@ -29,77 +29,149 @@
     } else if (localStorage.login == "false" && filename != 'login.html') {
         window.location.href = "login.html";
     }
-    </script>
- <script> 
+  
     $(function(){
-		$("#navbarin").load("nav.html"); 
-		$("#footer").load("footer.html"); 
+      $("#navbarin").load("nav.html"); 
+    });
+	 $(function(){
+      $("#footer").load("footer.html"); 
     });
 	
- 	$(document).ready(function(){
+	$(document).ready(function(){
+		$('#mgrname').hide();
+		$('#store_id').load(hosturl+'mobdata.php?action=store', '', function(response, status, xhr) {
+	});
+		$('#manager_id').load(hosturl+'mobdata.php?action=getmanager', '', function(response, status, xhr) {
+	});
 
- $('#addcash').validate({ // initialize the plugin
+    $('#exphead').change(function(){
+        if($('#exphead').val() == 'BD') {
+             
+
+			$('#mgrname').hide(); 
+			
+			
+        } 
+		else if($('#exphead').val() == 'TM') {
+            $('#mgrname').show(); 
+			
+			
+
+        } 
+		else {
+			
+			
+			$('#mgrname').hide(); 
+
+		}
+    });	
+	 
+   var i = 1;
+            $('#add').click(function(){
+                //alert(localStorage.id);
+				var stor_value = $('#store_id').val();
+				if(stor_value == '')
+				{
+					alert('Please select store first');
+					return false;
+				}
+				$('select#store_id').attr("style", "pointer-events: none;");                
+				i++;
+			
+                $('#dynamic_field').append("<div class='w-col'  id='row"+i+"'><div class='w-col-12 pullleft'><label class='label-form' for='datetime-field'>Select Date:</label><input required type='datetime-local' class='input-form w-input' placeholder='Select Date and Time' name='datetime[]' id='datetime"+i+"' value=''><div class='separator-fields'></div></div><div class='w-col-4 pullleft'><label class='label-form' for='exphead-field'>Select Type:</label><select class='input-form select w-select'  name='exphead[]' id='exphead"+i+"'  required><option value=''>Select Expense Head</option><option value='SE'>Store Expenses</option><option value='BD'>Bank Deposit</option><option value='TM'>Cash To Manager</option></select><div class='separator-fields'></div></div><div class='w-col-4 pullleft' id='mgrname"+i+"'><label class='label-form' for='manager_id'>Select Manager:</label><select class='input-form select w-select' name='manager_id[]' id='manager_id"+i+"'  required> </select><div class='separator-fields'></div></div><div class='w-col-4 pullleft'><label class='label-form' for='amount'>Amount:</label><input class='input-form w-input' data-name='Amount' id='amount"+i+"' maxlength='256' name='amount[]'  type='number' value='' required><div class='separator-fields'></div></div><div class='w-col-11 pullleft'><label class='label-form' for='remark'>Remark:</label><input class='input-form w-input' data-name='Remark' id='remark"+i+"' maxlength='256' name='remark[]'  type='text' value='' required><div class='separator-fields'></div></div><div class='w-col-1 pullleft'><input id=''+i+'' class='action-button w-button btn_remove' type='button' name='remove' value='-' ></div></div>");
+				 $('#manager_id'+i).load(hosturl+'mobdata.php?action=getmanager', '', function(response, status, xhr) {
+	});
+				 $('#mgrname'+i).hide(); 
+				 $('#datetime'+i).focus();
+				     $('#exphead'+i).change(function(){
+						if($('#exphead'+i).val() == 'BD') {
+							 
+				
+							$('#mgrname'+i).hide(); 
+							
+							
+						} 
+						else if($('#exphead'+i).val() == 'TM') {
+							$('#mgrname'+i).show(); 
+							
+							
+				
+						} 
+						else {
+							
+							
+							$('#mgrname'+i).hide(); 
+				
+						}
+					});	
+			
+			});
+
+
+            $(document).on('click','.btn_remove', function(){
+                var button_id = $(this).attr("id");
+                if(button_id == 2)
+				{
+					$('select#store_id').attr("style", "pointer-events: visible;");
+				}                
+				$("#row"+button_id+"").remove();
+				i = i -1;
+            });
+
+ $('#addreport').validate({ // initialize the plugin
         rules: {
-				cashmeta: {
-					required: true,
-				},
-				amount: {
-					required: true,
-					number: true,
-				} 
+            store_id: {
+                required: true,
+            },
+			qty: {
+                required: true,
+            },
+			remark: {
+                required: true,
+				
+            },
+			datetime: {
+                required: true,
+				
+            } 
 			 },
 		 
        
-    });
+ 
 
- //Add Warrant
-$("#addcash").submit(function(){
-	
-		var cashmeta=$("#cashmeta").val();
-		var amount=$("#amount").val();
-		var store_id = localStorage.storeid;
-		var user_id = localStorage.uid;
-		
-		var dataString="cashmeta="+cashmeta+"&amount="+amount+"&store_id="+store_id+"&user_id="+user_id+"&daycash=";
-		if($.trim(cashmeta).length>0 & $.trim(amount).length>0 & $.trim(store_id).length>0 & $.trim(user_id).length>0)
-		
-		
-               
-	{
-		$.ajax({
-			type: "POST",
-			url: hosturl+"auth1.php?callback=?",
-			data: dataString,
-			crossDomain: true,
-			cache: false,
-			beforeSend: function(){ $("#cashadd").val('Adding Exependiture...');},
-			success: function(data, status){
+    submitHandler: function(form) {
+ 
+			var fd = new FormData(form);
+			fd.append('user_id',localStorage.uid);
 			
+        $.ajax({
+			url: hosturl+"auth1.php",
+			type: "POST",
+			data: fd,
+			contentType: false,
+			processData: false,
+			//data: $('#additem').serialize(),
+            success: function(data, status) {
 				var resp = $.parseJSON(data);
-			 
 				$('html, body').animate({ scrollTop: $('#main-stack').offset().top }, 500);
 				$('#sucessMessage').html(resp.value1);
 				$('#sucessMessage').show();
-				$('#sucessMessage').delay(2000).fadeOut();
-				$("#cashadd").val('Add Exependiture');
-				if(resp.value3=="S"){
-				 $("#addcash")[0].reset()
-				 }
-			}
-			
-		});
-	}
-	
-	return false;
+				
+				if(resp.msg=="success"){
+					$("#addreport")[0].reset(); 
+				}
+				
+				if(resp.value2=="S"){
+				//window.location.href = "depot-add-stock-in.html";
+				}
+				 }            
+        });
+    }
 
 });
 
-
-
- });
-
-
-    </script>  
+});
+     </script>  
     
    </head>
    <body>
@@ -112,27 +184,71 @@ $("#addcash").submit(function(){
             <div class="body padding">
                <div class="w-form">
                <div id="sucessMessage"> </div>
-                  <form action="#" data-name="Day Cash" id="addcash" name="addcash">
-                     <div class="separator-button-input"></div>
-                     
-					  <div class="w501">
-                        <label class="label-form" for="cashmeta">Exependiture Head:</label>
-						<input class="input-form w-input" data-name="cashmeta" id="cashmeta"  name="cashmeta"  value="">
+                <form action="#" data-name="Select a Store" id="addreport" name="addreport">
+                <div class="separator-button-input"></div>
+                <div>
+                <label class="label-form" for="storename">Select a Store:</label>
+                <select class="input-form select w-select" name="store_id" id="store_id"  >
+                
+                </select>
+                <div class="separator-fields"></div>
+                </div>
+                
+                
+                
+                
+                
+                <div id="dynamic_field">
+                <div class="w-col">
+                      <div class="w-col-12 pullleft">
+                        <label class="label-form" for="datetime-field">Select Date:</label>
+							<input required type="datetime-local" class="input-form w-input" placeholder="Select Date and Time" name="datetime[]" id="datetime" value="">						 	
+                        <div class="separator-fields"></div>
+                     </div> 
+                       
+                 	<div class="w-col-4 pullleft">
+                	<label class="label-form" for="exphead-field">Select Type:</label>
+					<select class="input-form select w-select"  name="exphead[]" id="exphead"  required> 
+						<option value="">Select Expense Head</option>
+                        <option value="SE">Store Expenses</option>
+                        <option value="BD">Bank Deposit</option>
+                        <option value="TM">Cash To Manager</option>
+                        	
+                    </select>
+						 	
+                    <div class="separator-fields"></div>
+                </div>    
+                
+				<div class="w-col-4 pullleft" id="mgrname">      
+                 	    <label class="label-form" for="manager_id">Select Manager:</label>
+                    	<select class="input-form select w-select" name="manager_id[]" id="manager_id"  required> </select>
+                                        
+                	<div class="separator-fields"></div>   	
+                </div>                
+					  <div class="w-col-4 pullleft"> 
+                        <label class="label-form" for="amount">Amount:</label>
+						 <input class="input-form w-input" data-name="Amount" id="amount" maxlength="256" name="amount[]"  type="number" value="" required>
 						 
                         <div class="separator-fields"></div>
-                     </div>
-                     <div class="w501">
-                        <label class="label-form" for="amount">Amount:</label>
-						<input class="input-form w-input" data-name="amount" id="amount" maxlength="256" name="amount"  type="number" value="">
+                      </div>
+					<div class="w-col-12 pullleft"> 
+                        <label class="label-form" for="remark">Remark:</label>
+						 <input class="input-form w-input" data-name="Remark" id="remark" maxlength="256" name="remark[]"  type="text" value="" required>
+						 
                         <div class="separator-fields"></div>
-                     </div>
-                    
-                     
-                     <input class="action-button w-button" data-wait="Please wait..." type="submit" value="Add Cash" id="cashadd">
-                        <div class="separator-button"></div>
-                  </form>
+                      </div>					                     
+                      
+                </div>
+                </div>
+                
+                
+                <input class="action-button w-button" data-wait="Please wait..." type="submit" value="Add" name="auditreportcash" id="auditreportcash" style="width:30%">
+                <input class="action-button w-button" data-wait="Please wait..." type="button" value="+" name="add" id="add" style="width:10%"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+                <div class="separator-button"></div>
+                </form>
                </div>
                 
+
             </div>
          </div>
          <div class="loading-mask page-content" id="new-stack">

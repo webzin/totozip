@@ -42,10 +42,12 @@
 	$(function(){
 	$("#loaddata").load(hosturl+"mobdata.php?action=storestockout&storemanager_id="+localStorage.uid); 
 	//$('#item_id').load(hosturl+'mobdata.php?action=wname');
+	$('#stdate').load(hosturl+'mobdata.php?action=getDateststockout&store_id='+localStorage.storeid);
 	$('#month').load(hosturl+'mobdata.php?action=getMonthststockout&store_id='+localStorage.storeid);
 	$('#year').load(hosturl+'mobdata.php?action=getYeartstockout&store_id='+localStorage.storeid);
-	$('#brand').load(hosturl+'mobdata.php?action=br');
+	//$('#brand').load(hosturl+'mobdata.php?action=br');
 	$('#itmtype').load(hosturl+'mobdata.php?action=wtype');
+	$('#bepari_id').load(hosturl+'data.php?act=bepari_id&store_id='+localStorage.storeid, '', function(response, status, xhr) { });
 	}); 
 	$(window).load(function() {
 	setInterval(function() {
@@ -53,188 +55,122 @@
 	}, 3000);
 	});
 
-/*		$(document).on('change', '#item_id', function(){
-			var itm_id = $('#item_id').val();
+		$(document).on('change', '#stdate', function(){
 			var itm_nm = $( "#brand option:selected" ).text();
 			itm_nm = itm_nm.replace(' ','%20');
-			var itm_tp = $( "#itmtype option:selected" ).val();
-			var it_id = ''
 			var brands = '';
-			var itemtypes = '';
-			//alert(itm_nm)
-			if(itm_id != '')
-			{
-				it_id = '&item_id='+itm_id;
-			}
-			else
-			{
-				it_id = ''
-			}
+
 			if($( "#brand option:selected" ).val() != '')
 			{
 				brands = '&item_nm='+itm_nm;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
-			}
-			if($( "#itmtype option:selected" ).val() != '')
-			{
-				itemtypes = '&item_type='+itm_tp;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
-			}
 
-			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+it_id+brands+itemtypes);
-		});	*/
+			}
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+"&date="+$( "#stdate" ).val()+"&month="+$( "#month" ).val()+"&year="+$("#year").val()+"&item_type="+$("#itmtype").val()+"&saletype="+$("#saletype").val()+"&bepari_id="+$("#bepari_id").val()+brands);
+		});
 		
 		$(document).on('change', '#month', function(){
-			var month = $('#month').val();
-			var year = $('#year').val();
+			
 			var itm_nm = $( "#brand option:selected" ).text();
 			itm_nm = itm_nm.replace(' ','%20');
-			var itm_tp = $( "#itmtype option:selected" ).val();
-			var mont = ''
 			var brands = '';
-			var itemtypes = '';
-			var yr = '';
-			//alert(itm_nm)
-			if(month != '')
-			{
-				mont = '&month='+month;
-			}
-			else
-			{
-				mont = '';
-			}
-			if(year != '')
-			{
-				yr = '&year='+year;
-			}
-			else
-			{
-				yr = '';
-			}
 
 			if($( "#brand option:selected" ).val() != '')
 			{
 				brands = '&item_nm='+itm_nm;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
-			}
-			if($( "#itmtype option:selected" ).val() != '')
-			{
-				itemtypes = '&item_type='+itm_tp;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
-			}
 
-			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+mont+yr+brands+itemtypes);
+			}
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+"&date="+$( "#stdate" ).val()+"&month="+$( "#month" ).val()+"&year="+$("#year").val()+"&item_type="+$("#itmtype").val()+"&saletype="+$("#saletype").val()+"&bepari_id="+$("#bepari_id").val()+brands);
+			
+		
 		});
 		
 		$(document).on('change', '#year', function(){
-			var month = $('#month').val();
-			var year = $('#year').val();
+		
 			var itm_nm = $( "#brand option:selected" ).text();
 			itm_nm = itm_nm.replace(' ','%20');
-			var itm_tp = $( "#itmtype option:selected" ).val();
-			var mont = ''
 			var brands = '';
-			var itemtypes = '';
-			var yr = '';
-			//alert(itm_nm)
-			if(month != '')
-			{
-				mont = '&month='+month;
-			}
-			else
-			{
-				mont = '';
-			}
-			if(year != '')
-			{
-				yr = '&year='+year;
-			}
-			else
-			{
-				yr = '';
-			}
 
 			if($( "#brand option:selected" ).val() != '')
 			{
 				brands = '&item_nm='+itm_nm;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
-			}
-			if($( "#itmtype option:selected" ).val() != '')
-			{
-				itemtypes = '&item_type='+itm_tp;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
-			}
 
-			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+mont+yr+brands+itemtypes);
+			}
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+"&date="+$( "#stdate" ).val()+"&month="+$( "#month" ).val()+"&year="+$("#year").val()+"&item_type="+$("#itmtype").val()+"&saletype="+$("#saletype").val()+"&bepari_id="+$("#bepari_id").val()+brands);
+			
+		
 		});
 
 
 		$(document).on('change', '#brand', function(){
-			//var it_id = $('#item_id').val();
-			var itm_nm = $( "#brand option:selected" ).text();
-			var month = $( "#month option:selected" ).val();
-			var year = $( "#year option:selected" ).val();
-			itm_nm = itm_nm.replace(' ','%20');
-			var itm_tp = $( "#itmtype option:selected" ).val();
-			//var itmid = '';
-			var itemtypes = '';
-			if($( "#brand option:selected" ).val() == '')
-			{
-				itm_nm = '';
-			}
-			else
-			{
-				itm_nm = '&item_nm='+itm_nm;
-			}
-			
-			/*if(it_id != '')
-			{
-				itmid = '&item_id='+it_id;
-			}*/
-			//alert(storid);
-			if($( "#itmtype option:selected" ).val() != '')
-			{
-				itemtypes = '&item_type='+itm_tp;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
-			}
-
-			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+itm_nm+itemtypes+'&month='+month+'&year='+year);
-		});	
-	
-		$(document).on('change', '#itmtype', function(){
-			var month = $( "#month option:selected" ).val();
-			var year = $( "#year option:selected" ).val();
-			//var it_id = $('#item_id').val();
+		
 			var itm_nm = $( "#brand option:selected" ).text();
 			itm_nm = itm_nm.replace(' ','%20');
-			var itm_tp = $( "#itmtype option:selected" ).val();
-			//var itmid = '';
-			var itemtypes = '';
 			var brands = '';
-			
-			if(itm_tp != '')
-			{
-				itemtypes = '&item_type='+itm_tp;
-			}
-			else
-			{
-				itemtypes = ''
-			}
-			
-			/*if(it_id != '')
-			{
-				itmid = '&item_id='+it_id;
-			}*/
-			//alert(storid);
+
 			if($( "#brand option:selected" ).val() != '')
 			{
 				brands = '&item_nm='+itm_nm;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+
 			}
-			//	alert($( "#brand option:selected" ).val());
-			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&&storemanager_id='+localStorage.uid+itemtypes+brands+'&month='+month+'&year='+year);
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+"&date="+$( "#stdate" ).val()+"&month="+$( "#month" ).val()+"&year="+$("#year").val()+"&item_type="+$("#itmtype").val()+"&saletype="+$("#saletype").val()+"&bepari_id="+$("#bepari_id").val()+brands);
+			
 			
 		});	
+	
+		$(document).on('change', '#itmtype', function(){
+		
+			$("#brand" ).val('');
+			var itm_nm = '';
+			$('#brand').load(hosturl+'data.php?act=winetype&type_id='+this.value, '', function(response, status, xhr) { });
+			
+			var brands = '';
+			
+			if($("#brand option:selected" ).val() != '')
+			{
+				itm_nm = $( "#brand option:selected" ).text();
+				itm_nm = itm_nm.replace(' ','%20');
+
+				brands = '&item_nm='+itm_nm;
+
+			}
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+"&date="+$( "#stdate" ).val()+"&month="+$( "#month" ).val()+"&year="+$("#year").val()+"&item_type="+$("#itmtype").val()+"&saletype="+$("#saletype").val()+"&bepari_id="+$("#bepari_id").val()+brands);
+		
+			
+		});	
+
+		$(document).on('change', '#saletype', function(){
+		
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+
+			}
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+"&date="+$( "#stdate" ).val()+"&month="+$( "#month" ).val()+"&year="+$("#year").val()+"&item_type="+$("#itmtype").val()+"&saletype="+$("#saletype").val()+"&bepari_id="+$("#bepari_id").val()+brands);
+		
+			
+		});	
+
+		$(document).on('change', '#bepari_id', function(){
+		
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+
+			}
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockout&storemanager_id='+localStorage.uid+"&date="+$( "#stdate" ).val()+"&month="+$( "#month" ).val()+"&year="+$("#year").val()+"&item_type="+$("#itmtype").val()+"&saletype="+$("#saletype").val()+"&bepari_id="+$("#bepari_id").val()+brands);
+		
+			
+		});	
+
+
 	function myFunction(id) {
   		//alert(id)
 	  var popup = document.getElementById("myPopup"+id);
@@ -252,25 +188,43 @@
          </div>
 		<div class="body padding">
           <div class="w-form">
-          <div class="w50">
-          <label class="label-form" for="month">Filter By Month:</label>
+          <div class="w50" style="width:16%;">
+          <label class="label-form" for="stdate">Date:</label>
+          <select class="input-form select w-select" name="stdate" id="stdate"  > </select>
+          </div>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="month">Month:</label>
           <select class="input-form select w-select" name="month" id="month"  > </select>
           </div>
-          <div class="w50">
-          <label class="label-form" for="year">Filter By Year:</label>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="year">Year:</label>
           <select class="input-form select w-select" name="year" id="year"  > </select>
           </div>
+
           <!--<div class="w50">
           <label class="label-form" for="store_id">Filter By Item:</label>
           <select class="input-form select w-select" name="item_id" id="item_id"  > </select>
           </div>-->
-          <div class="w50">
+           <div class="w50"  style="width:25%;">
+          <label class="label-form" for="itmtype">Filter By Type:</label>
+          <select class="input-form select w-select" name="itmtype" id="itmtype"  > </select>
+          </div>
+
+          <div class="w50" style="width:25%;">
           <label class="label-form" for="brand">Filter By Brand:</label>
           <select class="input-form select w-select" name="brand" id="brand"  > </select>
           </div>
+          <div class="w50">
+          <label class="label-form" for="saletype">Filter By Sale Type:</label>
+          <select class="input-form select w-select" name="saletype" id="saletype"  > 
+          	<option value="">Select Type</option>
+            <option value="R">Counter</option>
+            <option value="W">Bepari</option>
+          </select>
+          </div>
            <div class="w50">
-          <label class="label-form" for="itmtype">Filter By Type:</label>
-          <select class="input-form select w-select" name="itmtype" id="itmtype"  > </select>
+          <label class="label-form" for="bepari">Filter By Bepari:</label>
+          <select class="input-form select w-select" name="bepari_id" id="bepari_id"  > </select>
           </div>
           
           </div>

@@ -41,7 +41,9 @@
 	
 	$(function(){
 	var store_id = localStorage.storeid;
-	$("#loaddata").load(hosturl+"mobdata.php?action=manageracceptcash&manager_id="+localStorage.getItem('uid')); 
+	$("#loaddata").load(hosturl+"mobdata.php?action=manageracceptcash&manager_id="+localStorage.getItem('uid'));
+	$('#store_id').load(hosturl+'mobdata.php?action=store'); 
+	$("#stdate").load(hosturl+"mobdata.php?action=getDateMgAccCash&manager_id="+localStorage.getItem('uid')); 
 	$("#month").load(hosturl+"mobdata.php?action=getMonthMgAccCash&manager_id="+localStorage.getItem('uid')); 
 	$("#year").load(hosturl+"mobdata.php?action=getYearMgAccCash&manager_id="+localStorage.getItem('uid')); 
 
@@ -52,18 +54,42 @@
 	}, 3000);
 	});
 
-		$(document).on('change', '#month', function(){
+		$(document).on('change', '#stdate', function(){
+			var date = $( "#stdate option:selected" ).val();
 			var month = $( "#month option:selected" ).val();
 			var year = $( "#year option:selected" ).val();
+			var store_id = $( "#store_id option:selected" ).val();
 			
-			$("#loaddata").load(hosturl+"mobdata.php?action=manageracceptcash&type=acc&manager_id="+localStorage.getItem('uid')+"&month="+month+"&year="+year); 
+			$("#loaddata").load(hosturl+"mobdata.php?action=manageracceptcash&type=acc&manager_id="+localStorage.getItem('uid')+"&date="+date+"&month="+month+"&year="+year+"&store_id="+store_id); 
+		});		
+
+
+		$(document).on('change', '#month', function(){
+			var date = $( "#stdate option:selected" ).val();
+			var month = $( "#month option:selected" ).val();
+			var year = $( "#year option:selected" ).val();
+			var store_id = $( "#store_id option:selected" ).val();
+			
+			$("#loaddata").load(hosturl+"mobdata.php?action=manageracceptcash&type=acc&manager_id="+localStorage.getItem('uid')+"&date="+date+"&month="+month+"&year="+year+"&store_id="+store_id); 
 		});		
 		$(document).on('change', '#year', function(){
+			var date = $( "#stdate option:selected" ).val();
 			var month = $( "#month option:selected" ).val();
 			var year = $( "#year option:selected" ).val();
+			var store_id = $( "#store_id option:selected" ).val();
 			
-			$("#loaddata").load(hosturl+"mobdata.php?action=manageracceptcash&type=acc&manager_id="+localStorage.getItem('uid')+"&month="+month+"&year="+year); 
+			$("#loaddata").load(hosturl+"mobdata.php?action=manageracceptcash&type=acc&manager_id="+localStorage.getItem('uid')+"&date="+date+"&month="+month+"&year="+year+"&store_id="+store_id); 
 		});
+
+		$(document).on('change', '#store_id', function(){
+			var date = $( "#stdate option:selected" ).val();
+			var month = $( "#month option:selected" ).val();
+			var year = $( "#year option:selected" ).val();
+			var store_id = $( "#store_id option:selected" ).val();
+			
+			$("#loaddata").load(hosturl+"mobdata.php?action=manageracceptcash&type=acc&manager_id="+localStorage.getItem('uid')+"&date="+date+"&month="+month+"&year="+year+"&store_id="+store_id); 
+		});		
+
 		
 		$(document).ready(function(){
 			
@@ -127,14 +153,23 @@
          <div class="body padding">
           <div class="w-form">
           <div id="sucessMessage"> </div>
-          <div class="w50">
-          <label class="label-form" for="month">Filter By Month:</label>
+          <div class="w50" style="width:16%;">
+          <label class="label-form" for="stdate">Date:</label>
+          <select class="input-form select w-select" name="stdate" id="stdate"  > </select>
+          </div>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="month">Month:</label>
           <select class="input-form select w-select" name="month" id="month"  > </select>
           </div>
-          <div class="w50">
-          <label class="label-form" for="year">Filter By Year:</label>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="year">Year:</label>
           <select class="input-form select w-select" name="year" id="year"  > </select>
           </div>
+          <div class="w50">
+              <label class="label-form" for="year">Filter By Store:</label>
+              <select class="input-form select w-select" name="store_id" id="store_id"  > </select>
+          </div>	
+          	
           <div class="w50" style="margin-bottom:5%">
           	<input class="action-button w-button" data-wait="Please wait..." type="submit" value="Accept" name="acceptcash" id="acceptcash" style="width:40%">
           </div>

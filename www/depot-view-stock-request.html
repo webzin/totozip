@@ -41,13 +41,109 @@
 	$(function(){
 	var store_id = localStorage.storeid;
 	$("#loaddata").load(hosturl+"mobdata.php?action=stockreqview"); 
+	$('#store_id').load(hosturl+'mobdata.php?action=store');
+	//$('#brand').load(hosturl+'mobdata.php?action=br');
+	$('#itmtype').load(hosturl+'mobdata.php?action=wtype');
+	$('#stdate').load(hosturl+'mobdata.php?action=getdepostreqdate&depo_user_id='+localStorage.uid);	
+	$('#month').load(hosturl+'mobdata.php?action=getdepostreqmonth&depo_user_id='+localStorage.uid);	
+	$('#year').load(hosturl+'mobdata.php?action=getdepostreqyear&depo_user_id='+localStorage.uid);	
+	
 	}); 
 	$(window).load(function() {
 	setInterval(function() {
 	$("#loader").fadeOut("slow")
 	}, 3000);
 	});
-	
+
+		$(document).on('change', '#stdate', function(){
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+			//alert(itm_nm)
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+			}
+
+			$('#loaddata').load(hosturl+'mobdata.php?action=stockreqview&depo_id='+localStorage.uid+'&store_id='+$('#store_id').val()+'&item_type='+$('#itmtype').val()+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+brands);
+		});		
+
+		$(document).on('change', '#month', function(){
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+			//alert(itm_nm)
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+			}
+
+			$('#loaddata').load(hosturl+'mobdata.php?action=stockreqview&depo_id='+localStorage.uid+'&store_id='+$('#store_id').val()+'&item_type='+$('#itmtype').val()+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+brands);
+		});		
+		
+		$(document).on('change', '#year', function(){
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+			//alert(itm_nm)
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+			}
+
+			$('#loaddata').load(hosturl+'mobdata.php?action=stockreqview&depo_id='+localStorage.uid+'&store_id='+$('#store_id').val()+'&item_type='+$('#itmtype').val()+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+brands);
+		});		
+
+		$(document).on('change', '#store_id', function(){
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+			//alert(itm_nm)
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+			}
+
+			$('#loaddata').load(hosturl+'mobdata.php?action=stockreqview&depo_id='+localStorage.uid+'&store_id='+$('#store_id').val()+'&item_type='+$('#itmtype').val()+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+brands);
+		});		
+		$(document).on('change', '#brand', function(){
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+			//alert(itm_nm)
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+			}
+
+			$('#loaddata').load(hosturl+'mobdata.php?action=stockreqview&depo_id='+localStorage.uid+'&store_id='+$('#store_id').val()+'&item_type='+$('#itmtype').val()+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+brands);
+		});		
+		$(document).on('change', '#itmtype', function(){
+			$("#brand" ).val('');
+			var itm_nm = '';
+			$('#brand').load(hosturl+'data.php?act=winetype&type_id='+this.value, '', function(response, status, xhr) { });
+
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+			
+			if($("#brand option:selected" ).val() != '')
+			{
+				itm_nm = $( "#brand option:selected" ).text();
+				itm_nm = itm_nm.replace(' ','%20');
+
+				brands = '&item_nm='+itm_nm;
+
+			}
+
+			$('#loaddata').load(hosturl+'mobdata.php?action=stockreqview&depo_id='+localStorage.uid+'&store_id='+$('#store_id').val()+'&item_type='+$('#itmtype').val()+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+brands);
+		});		
+
     </script> 
 
    </head>
@@ -58,7 +154,36 @@
          <div class="navbar w-nav" data-animation="default" data-collapse="all" data-duration="700" id="navbarin">
          
          </div>
-          
+         <div class="body padding">
+          <div class="w-form">
+          <div class="w50" style="width:16%;">
+          <label class="label-form" for="stdate">Date:</label>
+          <select class="input-form select w-select" name="stdate" id="stdate"  > </select>
+          </div>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="month">Month:</label>
+          <select class="input-form select w-select" name="month" id="month"  > </select>
+          </div>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="year">Year:</label>
+          <select class="input-form select w-select" name="year" id="year"  > </select>
+          </div>
+
+          <div class="w50">
+          <label class="label-form" for="store_id">Filter By Store:</label>
+          <select class="input-form select w-select" name="store_id" id="store_id"  > </select>
+          </div>
+           <div class="w50">
+          <label class="label-form" for="itmtype">Filter By Type:</label>
+          <select class="input-form select w-select" name="itmtype" id="itmtype"  > </select>
+          </div>
+
+          <div class="w50">
+          <label class="label-form" for="brand">Filter By Brand:</label>
+          <select class="input-form select w-select" name="brand" id="brand"  > </select>
+          </div>
+          </div>
+          </div> 
             <div class="body" id="loaddata">
             
             

@@ -41,9 +41,11 @@
 	
 	/*data fetch store*/
 	if (localStorage.ut == "storemanager") {
-	$("#sot").load(hosturl+"mobdata.php?action=sot&store_id="+localStorage.storeid); 
+	$("#email").hide();
+	$('#sot').load(hosturl+'mobdata.php?act=getstore_credit&store_id='+localStorage.storeid, '', function(response, status, xhr) { });
 	$("#totstk").load(hosturl+"mobdata.php?action=totstk&store_id="+localStorage.storeid); 
-	$("#sit").load(hosturl+"mobdata.php?action=sit&store_id="+localStorage.storeid);
+	$('#sit').load(hosturl+'mobdata.php?act=getstore_cash&store_id='+localStorage.storeid, '', function(response, status, xhr) { }); 
+	//$("#sit").load(hosturl+"mobdata.php?action=sit&store_id="+localStorage.storeid);
 	$("#myinv").load(hosturl+"mobdata.php?action=myinv");
 	}
 	/*data fetch depot*/
@@ -58,6 +60,12 @@
 		$("#mgrrdepositcash").load(hosturl+"data.php?act=cashdepositmanagertoday&manager_id="+localStorage.uid);
 		$("#mgrcashdeposit").load(hosturl+"data.php?act=managercash&manager_id="+localStorage.uid);
 	}
+	if (localStorage.ut == "audit") {	
+		$("#salesfigureweekly").load(hosturl+"data.php?act=salesfigure&period=weekly");
+		$("#salesfiguremonthly").load(hosturl+"data.php?act=salesfigure&period=monthly");
+		$("#salesfigureyearly").load(hosturl+"data.php?act=salesfigure&period=yearly");
+	}
+
 	
 	if (localStorage.storeid != "" && localStorage.storeid != "0") {
 	$("#comp").load(hosturl+"mobdata.php?action=comp&sid="+localStorage.storeid);
@@ -66,8 +74,8 @@
 	
 	//Displaying user email on home page
  
-	$("#stid").html(localStorage.storeid);
-	$("#name").html(localStorage.name); 
+	//$("#stid").html(localStorage.storeid);
+	$("#name").html(localStorage.name+" ("+localStorage.ut+")"); 
 	$("#mobile").html(localStorage.mobile); 
 	$("#email").html(localStorage.email);
 	$("#stype").html(localStorage.ut);
@@ -91,7 +99,7 @@
                   <div class="profile-header">
                      <div class="profile-avatar"><img src="" id="profilepic" style="padding:5px;border:1px solid #ADABAB;border-radius:50px;height:75px;width:75px;" /> </div>
                      <div class="profile-avatar-name-container">
-                        <div class="profile-avatar-name" id=""><span id="comp" style="text-transform:uppercase;"></span>&nbsp; <span id="stype"></span>&nbsp;<script> if (localStorage.storeid != "" &&localStorage.storeid != "0") {document.write("(ID: <span id='stid'></span>)"); }</script></div>
+                        <div class="profile-avatar-name" id=""><span id="comp" style="text-transform:uppercase;"></span><!--&nbsp; <span id="stype"></span>-->&nbsp;<script> //if (localStorage.storeid != "" &&localStorage.storeid != "0") {document.write("(ID: <span id='stid'></span>)"); }</script></div>
 						<div class="profile-avatar-name" id="name"></div>
                         <div class="profile-avatar-name" id="mobile"></div>
                         <div class="profile-avatar-job" id="email"></div>
@@ -101,30 +109,25 @@
                   <div class="store">
                   <div class="profile-figures">
                      <div class="w-row">
-                     <a class="w-block" data-load="1" href="stock-in-report.html">
+                     
                         <div class="w-col w-col-4 w-col-small-4 w-col-tiny-4">
                            <div class="profile-figures-column-group">
                               <div class="profile-figures-number" id="sit"></div>
-                              <div class="profile-figures-title">Stock In(Today)</div>
+                              <div class="profile-figures-title">Cash In Hand</div>
                            </div>
                         </div>
-                        </a>
-                        <a class="w-block" data-load="1" href="stock-out-report.html">
                         <div class="w-col w-col-4 w-col-small-4 w-col-tiny-4">
                            <div class="profile-figures-column-group">
                               <div class="profile-figures-number" id="sot"></div>
-                              <div class="profile-figures-title">Stock Out(Today)</div>
+                              <div class="profile-figures-title">Cash In Receivables</div>
                            </div>
                         </div>
-                        </a>
-                        <a class="w-block" data-load="1" href="stock-report.html">
                         <div class="w-col w-col-4 w-col-small-4 w-col-tiny-4">
                            <div class="profile-figures-column-group">
                               <div class="profile-figures-number" id="totstk"></div>
                               <div class="profile-figures-title">Current Stock (Today)</div>
                            </div>
                         </div>
-                        </a>
                      </div>
                   </div>
                   </div>
@@ -201,7 +204,7 @@
                       
                         <div class="w-col w-col-4 w-col-small-4 w-col-tiny-4">
                            <div class="profile-figures-column-group">
-                              <div class="profile-figures-number">55</div>
+                              <div class="profile-figures-number" id="salesfigureweekly"></div>
                               <div class="profile-figures-title">Sales Figure (Weekly)</div>
                            </div>
                         </div>
@@ -209,7 +212,7 @@
                         <a class="w-block" data-load="1" href="customer_inventory.html">
                         <div class="w-col w-col-4 w-col-small-4 w-col-tiny-4">
                            <div class="profile-figures-column-group">
-                              <div class="profile-figures-number">50</div>
+                              <div class="profile-figures-number" id="salesfiguremonthly"></div>
                               <div class="profile-figures-title">Sales Figure (Monthly)</div>
                            </div>
                         </div>
@@ -217,7 +220,7 @@
                          
                         <div class="w-col w-col-4 w-col-small-4 w-col-tiny-4">
                            <div class="profile-figures-column-group">
-                              <div class="profile-figures-number">100</div>
+                              <div class="profile-figures-number" id="salesfigureyearly"></div>
                               <div class="profile-figures-title">Sales Figure (Yearly)</div>
                            </div>
                         </div>
@@ -350,13 +353,13 @@
 <!--auditor menu -->
 <div class="audtr">
 
-<a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-view-store-sale.html">
+<!--<a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-view-store-sale.html">
 <div class="icon-list-menu">
 <i class="fa fa-tasks"></i> 
 </div>
 <div class="nav-menu-titles">View Storewise Sales</div>
 </a>
-	
+-->	
 <a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-store-stock-report.html">
 <div class="icon-list-menu">
 <i class="fa fa-database"></i> 
@@ -370,19 +373,19 @@
 </div>
 <div class="nav-menu-titles">Report a stock issue</div>
 </a>
+<a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-store-cash-report.html">
+<div class="icon-list-menu">
+<i class="fa fa-database"></i> 
+</div>
+<div class="nav-menu-titles">Storewise Cash Report</div>
+</a>
+
 <a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-cash-report-issue.html">
 <div class="icon-list-menu">
 <i class="fa fa-pencil-square-o"></i> 
 </div>
 <div class="nav-menu-titles">Report a Cash issue</div>
 </a>
-<a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-sale-report-issue.html">
-<div class="icon-list-menu">
-   <i class="fa fa-eyedropper"></i> 
-</div>
-<div class="nav-menu-titles">Report a Sales issue</div>
-</a>
- 
 
 </div>
 <!--manager menu -->

@@ -1,26 +1,27 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html>
    <head>
-            <meta charset="utf-8">
-            <title>Warrant Reports</title>
-            <meta content="Profile" property="og:title">
-            <meta content="width=device-width,initial-scale=1" name="viewport">
-            <meta name="generator" content="SensationThemes">
-            <link href="css/normalize.css" rel="stylesheet" type="text/css">
-            <link href="css/webflow.css" rel="stylesheet" type="text/css">
-            <link href="css/styles.css" rel="stylesheet" type="text/css">
-            <link href="images/logo32.png" rel="shortcut icon" type="image/x-icon">
-            <link href="images/logo.png" rel="apple-touch-icon">
-            <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-            <link href="css/ionicons.min.css" rel="stylesheet" type="text/css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-         <script src="js/jquery.min.js" type="text/javascript"></script>
- 		<script src="js/modernizr.js" type="text/javascript"></script>
-	   <script src="js/webflow.js" type="text/javascript"></script>
-	   <script type="text/javascript" src="js/scripts.js"></script> 
-      <script type="text/javascript">
-    var url = window.location.pathname;
-    var filename = url.substring(url.lastIndexOf('/') + 1);
+        <meta charset="utf-8">
+        <title> Stock</title>
+        <meta content="width=device-width,initial-scale=1" name="viewport">
+        <meta name="generator" content="SensationThemes">
+        <link href="css/normalize.css" rel="stylesheet" type="text/css">
+        <link href="css/webflow.css" rel="stylesheet" type="text/css">
+        <link href="css/styles.css" rel="stylesheet" type="text/css">
+        <link href="images/logo32.png" rel="shortcut icon" type="image/x-icon">
+        <link href="images/logo.png" rel="apple-touch-icon">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+        <link href="css/ionicons.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+        
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+ 	    <script type="text/javascript" src="js/jquery.validate.js"></script>
+        <script src="js/modernizr.js" type="text/javascript"></script>
+        <script src="js/webflow.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/scripts.js"></script> 
+        <script type="text/javascript">
+   	var url = window.location.pathname;
+	var filename = url.substring(url.lastIndexOf('/') + 1);
     if (localStorage.login == "true" && filename == 'login.html') {
         window.location.href = "profile.html";
     } else if (localStorage.login == null) {
@@ -28,44 +29,198 @@
     } else if (localStorage.login == "false" && filename != 'login.html') {
         window.location.href = "login.html";
     }
-    </script>
- <script> 
-	$(function(){
-	$("#navbarin").load("nav.html"); 
-	}); 
+  
+    $(function(){
+      $("#navbarin").load("nav.html"); 
+    });
+	 $(function(){
+      $("#footer").load("footer.html"); 
+    });
 	
-	$(function(){
-	$("#footer").load("footer.html"); 
-	}); 
-	
-	$(function(){
-	$("#loaddata").load(hosturl+"mobdata.php?action=warrep"); 
-	}); 
-	$(window).load(function() {
-	setInterval(function() {
-	$("#loader").fadeOut("slow")
-	}, 3000);
+	$(document).ready(function(){
+		$('#store_id').load(hosturl+'mobdata.php?action=store', '', function(response, status, xhr) {
 	});
+	$("select#store_id").change(function() {
+		
+		var store_val = this.value;
+	// myHandler($(this).val());
+			$('#item_id').load(hosturl+'data.php?act=showitem&store_id='+store_val, '', function(response, status, xhr) { });
 	
-    </script> 
+	});
+	 
+   var i = 1;
+            $('#add').click(function(){
+                //alert(localStorage.id);
+				var stor_value = $('#store_id').val();
+				if(stor_value == '')
+				{
+					alert('Please select store first');
+					return false;
+				}
+				$('select#store_id').attr("style", "pointer-events: none;");                
+				i++;
+			
+                $('#dynamic_field').append("<div class='w-col' id='row"+i+"'><div class='w-col-12 pullleft'><label class='label-form' for='datetime-field'>Select Date:</label><input required type='datetime-local' class='input-form w-input' placeholder='Select Date and Time' name='datetime[]' id='datetime"+i+"' value=''><div class='separator-fields'></div></div><div class='w-col-9 pullleft'><label class='label-form' for='item_id-field'>Select Wine Name:</label><select class='input-form select w-select'  name='item_id[]' id='item_id"+i+"'  required></select><div class='separator-fields'></div></div><div class='w-col-3 pullleft'><label class='label-form' for='qty'>Deficiency Qty:</label><input class='input-form w-input' data-name='Qty' id='qty"+i+"' maxlength='256' name='qty[]'  type='number' value='' required><div class='separator-fields'></div></div><div class='w-col-3 pullleft'><label class='label-form' for='sale_type-field'>Select Type:</label><select class='input-form select w-select'  name='sale_type[]' id='sale_type"+i+"'  required><option value=''>Select Type</option><option value='in'>In</option><option value='out'>Out</option></select><div class='separator-fields'></div></div><div class='w-col-8 pullleft'><label class='label-form' for='remark'>Remark:</label><input class='input-form w-input' data-name='Remark' id='remark"+i+"' maxlength='256' name='remark[]'  type='text' value='' required><div class='separator-fields'></div></div><div class='w-col-1 pullleft'><input id='"+i+"' class='action-button w-button btn_remove' type='button' name='remove' value='-' ></div></div>");
+				 $('#item_id'+i).load(hosturl+'data.php?act=showitem&store_id='+stor_value, '', function(response, status, xhr) { });
+				 $('#item_id'+i).focus();
+				 /*$('#item_id'+i).change(function(){
+						alert('hi');
+					});            */
+			
+			});
 
+
+            $(document).on('click','.btn_remove', function(){
+                var button_id = $(this).attr("id");
+                if(button_id == 2)
+				{
+					$('select#store_id').attr("style", "pointer-events: visible;");
+				}                
+				$("#row"+button_id+"").remove();
+				i = i -1;
+            });
+
+ $('#addreport').validate({ // initialize the plugin
+        rules: {
+            store_id: {
+                required: true,
+            },
+			qty: {
+                required: true,
+            },
+			remark: {
+                required: true,
+				
+            },
+			datetime: {
+                required: true,
+				
+            },
+
+			item_id: {
+                required: true,
+            } 
+			 },
+		 
+       
+ 
+
+    submitHandler: function(form) {
+ 
+			var fd = new FormData(form);
+			fd.append('user_id',localStorage.uid);
+			
+        $.ajax({
+			url: hosturl+"auth1.php",
+			type: "POST",
+			data: fd,
+			contentType: false,
+			processData: false,
+			//data: $('#additem').serialize(),
+            success: function(data, status) {
+				var resp = $.parseJSON(data);
+				$('html, body').animate({ scrollTop: $('#main-stack').offset().top }, 500);
+				$('#sucessMessage').html(resp.value1);
+				$('#sucessMessage').show();
+				
+				if(resp.msg=="success"){
+					$("#addreport")[0].reset(); 
+				}
+				
+				if(resp.value2=="S"){
+				//window.location.href = "depot-add-stock-in.html";
+				}
+				 }            
+        });
+    }
+
+});
+
+});
+     </script>  
+    
    </head>
    <body>
       <section class="mobile-wrapper">
          <div class="w-embed"></div>
          <div class="page-content" id="main-stack">
-         <div class="navbar w-nav" data-animation="default" data-collapse="all" data-duration="700" id="navbarin">
+            <div class="navbar w-nav" data-animation="default" data-collapse="all" data-duration="700" id="navbarin">
          
          </div>
-          
-            <div class="body" id="loaddata">
-            
-            
-                        </div>
-        </div>
-         
-         <div id="loader">
-         <div class="lds-dual-ring"></div>
+            <div class="body padding">
+               <div class="w-form">
+               <div id="sucessMessage"> </div>
+                <form action="#" data-name="Select a Store" id="addreport" name="addreport">
+                <div class="separator-button-input"></div>
+                <div>
+                <label class="label-form" for="storename">Select a Store:</label>
+                <select class="input-form select w-select" name="store_id" id="store_id"  >
+                
+                </select>
+                <div class="separator-fields"></div>
+                </div>
+                
+                
+                
+                
+                
+                <div id="dynamic_field">
+                <div class="w-col">
+                      <div class="w-col-12 pullleft">
+                        <label class="label-form" for="datetime-field">Select Date:</label>
+							<input required type="datetime-local" class="input-form w-input" placeholder="Select Date and Time" name="datetime[]" id="datetime" value="">						 	
+                        <div class="separator-fields"></div>
+                     </div> 
+                      <div class="w-col-9 pullleft">
+                        <label class="label-form" for="item_id-field">Select Wine Name:</label>
+						<select class="input-form select w-select"  name="item_id[]" id="item_id"  required> 
+                        	
+                        </select>
+						 	
+                        <div class="separator-fields"></div>
+                     </div> 
+                 
+					  <div class="w-col-3 pullleft"> 
+                        <label class="label-form" for="qty">Deficiency Qty:</label>
+						 <input class="input-form w-input" data-name="Qty" id="qty" maxlength="256" name="qty[]"  type="number" value="" required>
+						 
+                        <div class="separator-fields"></div>
+                      </div>
+                      <div class="w-col-3 pullleft">
+                        <label class="label-form" for="sale_type-field">Select Type:</label>
+						<select class="input-form select w-select"  name="sale_type[]" id="sale_type"  required> 
+ 							<option value="">Select Type</option>
+							<option value="in">In</option>
+							<option value="out">Out</option>
+                        	
+                        </select>
+						 	
+                        <div class="separator-fields"></div>
+                     </div> 
+					<div class="w-col-9 pullleft"> 
+                        <label class="label-form" for="remark">Remark:</label>
+						 <input class="input-form w-input" data-name="Remark" id="remark" maxlength="256" name="remark[]"  type="text" value="" required>
+						 
+                        <div class="separator-fields"></div>
+                      </div>					                     
+                      
+                </div>
+                </div>
+                
+                
+                <input class="action-button w-button" data-wait="Please wait..." type="submit" value="Add" name="auditreport" id="auditreport" style="width:30%">
+                <input class="action-button w-button" data-wait="Please wait..." type="button" value="+" name="add" id="add" style="width:10%"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+                <div class="separator-button"></div>
+                </form>
+               </div>
+                
+
+            </div>
+         </div>
+         <div class="loading-mask page-content" id="new-stack">
+            <div class="loading-icon">
+               <div class="icon ion-load-d navbar-button-icon"></div>
+            </div>
          </div>
       </section>
       <script src="js/webfont.js"></script><script type="text/javascript">WebFont.load({
@@ -73,7 +228,7 @@
            families: ["Montserrat:400,700"]
          }
          });
-     </script>
-      <div id="footer"></div>
+      </script> 
+<div id="footer"></div>
    </body>
 </html>

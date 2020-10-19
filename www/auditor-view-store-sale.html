@@ -2,13 +2,14 @@
 <html>
    <head>
             <meta charset="utf-8">
-            <title>Warrant Reports</title>
+            <title>View Stock Requests</title>
             <meta content="Profile" property="og:title">
             <meta content="width=device-width,initial-scale=1" name="viewport">
             <meta name="generator" content="SensationThemes">
             <link href="css/normalize.css" rel="stylesheet" type="text/css">
             <link href="css/webflow.css" rel="stylesheet" type="text/css">
             <link href="css/styles.css" rel="stylesheet" type="text/css">
+            <link href="css/stocktransferpopup.css" rel="stylesheet" type="text/css">
             <link href="images/logo32.png" rel="shortcut icon" type="image/x-icon">
             <link href="images/logo.png" rel="apple-touch-icon">
             <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -39,14 +40,89 @@
 	}); 
 	
 	$(function(){
-	$("#loaddata").load(hosturl+"mobdata.php?action=warrep"); 
+	var store_id = localStorage.storeid;
+	$("#loaddata").load(hosturl+"mobdata.php?action=auditorstoresales&ld=first"); 
+	$("#shmonth").hide(); 
+	$("#shyear").hide(); 
+	$("#month").load(hosturl+"mobdata.php?action=getMonthauditstview"); 
+	$("#year").load(hosturl+"mobdata.php?action=getYearauditstview"); 
+	$("#store_id").load(hosturl+"mobdata.php?action=store"); 
+	//$('#itmtype').load(hosturl+'mobdata.php?action=wtype');
+	
 	}); 
+		 
 	$(window).load(function() {
 	setInterval(function() {
 	$("#loader").fadeOut("slow")
-	}, 3000);
+	}, 1000);
 	});
 	
+	
+
+		
+
+	
+		$(document).on('change', '#period', function(){
+				
+			$("#shmonth").hide(); 
+			$("#shyear").hide(); 
+			if(this.value == "weekly")
+			{
+				
+				$("#loaddata").load(hosturl+"mobdata.php?action=auditorstoresales&period=weekly"+"&store_id="+$('#store_id').val()); 
+				
+			}
+			
+			if(this.value == "monthly")
+			{
+				$("#shmonth").show(); 
+				$("#year").val('');
+				$("#month").val(''); 
+				$("#loaddata").load(hosturl+"mobdata.php?action=auditorstoresales&period=monthly"+"&store_id="+$('#store_id').val()); 
+				
+			}
+			if(this.value == "yearly")
+			{
+				$("#shmonth").show();
+				$("#shyear").show();
+				$("#month").val(''); 
+				$("#year").val(''); 
+				$("#loaddata").load(hosturl+"mobdata.php?action=auditorstoresales&period=yearly"+"&store_id="+$('#store_id').val()); 
+				
+			}
+			
+			
+		});	
+
+		$(document).on('change', '#month', function(){
+				
+
+				$("#loaddata").load(hosturl+"mobdata.php?action=auditorstoresales&period="+$('#period').val()+"&month="+this.value+"&year="+$('#year').val()+"&store_id="+$('#store_id').val()); 
+			
+			
+		});	
+
+		$(document).on('change', '#year', function(){
+				
+
+				$("#loaddata").load(hosturl+"mobdata.php?action=auditorstoresales&period="+$('#period').val()+"&year="+this.value+"&month="+$('#month').val()+"&store_id="+$('#store_id').val()); 
+			
+			
+		});	
+
+		$(document).on('change', '#store_id', function(){
+				
+
+				$("#loaddata").load(hosturl+"mobdata.php?action=auditorstoresales&period="+$('#period').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+"&store_id="+this.value); 
+			
+			
+		});	
+	
+	function myFunction(id) {
+  
+  var popup = document.getElementById("myPopup"+id);
+  popup.classList.toggle("show");
+}
     </script> 
 
    </head>
@@ -57,7 +133,32 @@
          <div class="navbar w-nav" data-animation="default" data-collapse="all" data-duration="700" id="navbarin">
          
          </div>
+          <div class="body padding">
+          <div class="w-form">
+          <div class="w50">
+          <label class="label-form" for="period">Filter By Period:</label>
+          <select class="input-form select w-select" name="period" id="period"  > 
+          	<option value="">Select Period</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          </div>
+          <div class="w50" id="shmonth">
+          	<label class="label-form" for="month">Filter By Month:</label>
+          	<select class="input-form select w-select" name="month" id="month"  > </select>
+          </div>
+          <div class="w50" id="shyear">
+          	<label class="label-form" for="year">Filter By Year:</label>
+          	<select class="input-form select w-select" name="year" id="year"  > </select>
+          </div>
+          <div class="w50">
+          	<label class="label-form" for="store">Filter By Store:</label>
+          	<select class="input-form select w-select" name="store_id" id="store_id"  > </select>
+          </div>
           
+          </div>
+          </div>
             <div class="body" id="loaddata">
             
             

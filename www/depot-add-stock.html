@@ -42,7 +42,24 @@
 	});
 		$('#item_id').load(hosturl+'mobdata.php?action=wname', '', function(response, status, xhr) {
 	});
-	 
+	var pkt = 0;
+   $(document).on('change', '#item_id', function(){	
+		
+		//alert($('#qty').val());
+		$.get(hosturl+'mobdata.php?action=getpkttotal&item_id='+$('#item_id').val(), function(response, status, xhr) {
+   			pkt = jQuery.parseJSON(xhr.responseText);
+			
+		});
+	}); 
+
+   
+   $(document).on('keyup', '#qty', function(){	
+		
+		//console.log(pkt);
+		var qtval = $('#qty').val();
+		$('#totqty').val(qtval * pkt);
+	}); 
+   	 
    var i = 1;
             $('#add').click(function(){
                 //alert(localStorage.id);
@@ -55,13 +72,27 @@
 				$('select#store_id').attr("style", "pointer-events: none;");                
 				i++;
 			
-                $('#dynamic_field').append("<div class='w-col' id='row"+i+"'><div class='w-col-8 pullleft'><label class='label-form' for='winename-field'>Select Wine Name:</label><select class='input-form select w-select required'  name='item_id[]' id='item_id"+i+"'></select><div class='separator-fields'></div></div><div class='w-col-3 pullleft'><label class='label-form' for='qty'>Qty:</label><input class='input-form w-input required' data-name='qty' id='qty"+i+"' maxlength='256' name='qty[]'  type='number' value='' required><div class='separator-fields'></div></div><div class='w-col-1 pullleft'><input id='"+i+"' class='action-button w-button btn_remove' type='button' name='remove' value='-' ></div></div>");
+                $('#dynamic_field').append("<div class='w-col' id='row"+i+"'><div class='w-col-5 pullleft'><label class='label-form' for='winename-field'>Select Wine Name:</label><select class='input-form select w-select required'  name='item_id[]' id='item_id"+i+"'></select><div class='separator-fields'></div></div><div class='w-col-3 pullleft'><label class='label-form' for='qty'>Qty:</label><input class='input-form w-input required' data-name='qty' id='qty"+i+"' maxlength='256' name='qty[]'  type='number' value='' required><div class='separator-fields'></div></div> <div class='w-col-3 pullleft'><label class='label-form' for='total'>Total:</label><input class='input-form w-input' data-name='Total' id='totqty"+i+"' maxlength='256' name='total[]'  type='number' value='' disabled><div class='separator-fields'></div></div><div class='w-col-1 pullleft'><input id='"+i+"' class='action-button w-button btn_remove' type='button' name='remove' value='-' ></div></div>");
 				 $('#item_id'+i).load(hosturl+'mobdata.php?action=wname', '', function(response, status, xhr) {
 	});	
 				 $('#item_id'+i).focus();
-				 /*$('#item_id'+i).change(function(){
-						alert('hi');
-					});            */
+					var pkt = 0;
+				   $(document).on('change', '#item_id'+i, function(){	
+						
+						//alert($('#qty').val());
+						$.get(hosturl+'mobdata.php?action=getpkttotal&item_id='+$('#item_id'+i).val(), function(response, status, xhr) {
+							pkt = jQuery.parseJSON(xhr.responseText);
+							
+						});
+					}); 
+				
+				   
+				   $(document).on('keyup', '#qty'+i, function(){	
+						
+						//console.log(pkt);
+						var qtval = $('#qty'+i).val();
+						$('#totqty'+i).val(qtval * pkt);
+					}); 
 			
 			});
 
@@ -161,7 +192,7 @@
                 
                 <div id="dynamic_field">
                 <div class="w-col">
-                      <div class="w-col-9 pullleft">
+                      <div class="w-col-6 pullleft">
                         <label class="label-form" for="winename-field">Select Wine Name:</label>
 						<select class="input-form select w-select"  name="item_id[]" id="item_id"  required> 
                         	
@@ -173,6 +204,13 @@
 					  <div class="w-col-3 pullleft"> 
                         <label class="label-form" for="chalanno">Qty:</label>
 						 <input class="input-form w-input" data-name="Qty" id="qty" maxlength="256" name="qty[]"  type="number" value="" required>
+						 
+                        <div class="separator-fields"></div>
+                      </div>
+                      
+                      <div class="w-col-3 pullleft"> 
+                        <label class="label-form" for="total">Total:</label>
+						 <input class="input-form w-input" data-name="Total" id="totqty" maxlength="256" name="total[]"  type="number" value="" disabled>
 						 
                         <div class="separator-fields"></div>
                       </div>

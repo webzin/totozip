@@ -67,7 +67,7 @@ $('#beparidv').hide();
            
 				i++;
 			
-                $('#dynamic_field').append("<div class='w-col' id='row"+i+"'><div class='w-col-9 pullleft'><label class='label-form' for='winename-field'>Select Wine Name:</label><select class='input-form select w-select'  name='item_id[]' id='item_id"+i+"'  required></select><label id='qtyalert"+i+"' style=' color:#060'> </label><div class='separator-fields'></div></div><div class='w-col-3 pullleft'><label class='label-form' for='chalanno'>Qty:</label><input class='input-form w-input' data-name='Qty' id='qty"+i+"' maxlength='256' name='qty[]'  type='number' value='' required><div class='separator-fields'></div></div><div class='w-col-5 pullleft'><label class='label-form' for='saletype-field'>Sale Type:</label><select class='input-form select w-select'  name='sale_type[]' id='sale_type"+i+"'  required><option value=''>Select Sale Type</option><option value='W'>Wholesale</option><option value='R'>Retail</option></select><div class='separator-fields'></div></div><div class='w-col-5 pullleft' id='beparidv"+i+"'><label class='label-form' for='bepari-field'>Bepari:</label><select class='input-form select w-select' name='bepari_id[]' id='bepari_id"+i+"'  required></select><div class='separator-fields'></div></div><div class='w-col-1 pullleft'><input id='"+i+"' class='action-button w-button btn_remove' type='button' name='remove' value='-' ></div></div>");
+                $('#dynamic_field').append("<div class='w-col' id='row"+i+"'><div class='w-col-9 pullleft'><label class='label-form' for='winename-field'>Select Wine Name:</label><select class='input-form select w-select'  name='item_id[]' id='item_id"+i+"'  required></select><label id='qtyalert"+i+"' style=' color:#060'> </label><div class='separator-fields'></div></div><div class='w-col-3 pullleft'><label class='label-form' for='chalanno'>Qty:</label><input class='input-form w-input' data-name='Qty' id='qty"+i+"' maxlength='256' name='qty[]'  type='number' value='' required><div class='separator-fields'></div></div><div class='w-col-5 pullleft'><label class='label-form' for='saletype-field'>Sale Type:</label><select class='input-form select w-select'  name='sale_type[]' id='sale_type"+i+"'  required><option value=''>Select Sale Type</option><option value='W'>Bepari</option><option value='R'>Counter</option></select><div class='separator-fields'></div></div><div class='w-col-5 pullleft' id='beparidv"+i+"'><label class='label-form' for='bepari-field'>Bepari:</label><select class='input-form select w-select' name='bepari_id[]' id='bepari_id"+i+"'  required></select><div class='separator-fields'></div></div><div class='w-col-1 pullleft'><input id='"+i+"' class='action-button w-button btn_remove' type='button' name='remove' value='-' ></div></div>");
 			
 			$('#item_id'+i).load(hosturl+'data.php?act=showitem&store_id='+localStorage.storeid, '', function(response, status, xhr) { });	
 			$('#bepari_id'+i).load(hosturl+'data.php?act=bepari_id&store_id='+localStorage.storeid, '', function(response, status, xhr) { });
@@ -199,8 +199,8 @@ $('#beparidv').hide();
                         <label class="label-form" for="saletype-field">Sale Type:</label>
 						<select class="input-form select w-select"  name="sale_type[]" id="sale_type"  required>
 						<option value="">Select Sale Type</option>
-						<option value="W">Wholesale</option>
-						<option value="R">Retail</option>
+						<option value="W">Bepari</option>
+						<option value="R">Counter</option>
 						</select>
 						 
                         <div class="separator-fields"></div>

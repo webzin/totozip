@@ -26,7 +26,7 @@ $(document).ready(function(){
 		$(".audtr").hide();
 		$(".mangr").show();
 	} 
-	if (localStorage.ut == "auditor") {
+	if (localStorage.ut == "audit") {
 	$(".depot").hide();
 	$(".store").hide();
 	$(".mangr").hide();
@@ -155,12 +155,12 @@ $(document).ready(function(){
 <!--auditor menu -->
 <div class="audtr">
 
-<a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-view-store-sale.html">
+<!--<a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-view-store-sale.html">
 <div class="icon-list-menu">
 <i class="fa fa-tasks"></i> 
 </div>
 <div class="nav-menu-titles">View Storewise Sales</div>
-</a>
+</a>-->
 	
 <a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-store-stock-report.html">
 <div class="icon-list-menu">
@@ -175,17 +175,18 @@ $(document).ready(function(){
 </div>
 <div class="nav-menu-titles">Report a stock issue</div>
 </a>
+<a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-store-cash-report.html">
+<div class="icon-list-menu">
+   <i class="fa fa-eyedropper"></i> 
+</div>
+<div class="nav-menu-titles">Storewise Cash Report</div>
+</a>
+
 <a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-cash-report-issue.html">
 <div class="icon-list-menu">
 <i class="fa fa-pencil-square-o"></i> 
 </div>
 <div class="nav-menu-titles">Report a Cash issue</div>
-</a>
-<a class="nav-menu-link w-clearfix w-inline-block" data-load="1" href="auditor-sale-report-issue.html">
-<div class="icon-list-menu">
-   <i class="fa fa-eyedropper"></i> 
-</div>
-<div class="nav-menu-titles">Report a Sales issue</div>
 </a>
  
 
@@ -283,6 +284,7 @@ if(filename == 'auditor-cash-report-issue.html'){document.getElementById("demo")
 if(filename == 'auditor-sale-report-issue.html'){document.getElementById("demo").innerHTML = "Report Sale issue";}
 if(filename == 'auditor-stock-report-issue.html'){document.getElementById("demo").innerHTML = "Report Stock issue";}
 if(filename == 'auditor-store-stock-report.html'){document.getElementById("demo").innerHTML = "View Storewise Stocks";}
+if(filename == 'auditor-store-cash-report.html'){document.getElementById("demo").innerHTML = "View Storewise Cash";}
 if(filename == 'auditor-view-store-sale.html'){document.getElementById("demo").innerHTML = "View Storewise Sale reports";}
 
 /*Store start*/
@@ -299,6 +301,7 @@ if(filename == 'store-request-stock.html'){document.getElementById("demo").inner
 if(filename == 'store-stock-request-report.html'){document.getElementById("demo").innerHTML = "View Stock Requests";}
 if(filename == 'store-bp-lpl-report.html'){document.getElementById("demo").innerHTML = "BL LPL Report";}
 if(filename == 'store-bepari-list-report.html'){document.getElementById("demo").innerHTML = "View Beparis";}
+if(filename == 'bepari-profile.html'){document.getElementById("demo").innerHTML = "Bepari Profile";}
 
 /*Depot start*/
 

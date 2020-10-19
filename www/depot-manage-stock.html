@@ -43,7 +43,10 @@
 	$("#loaddata").load(hosturl+"mobdata.php?action=storestockreport&depo_id="+localStorage.uid); 
 	$('#store_id').load(hosturl+'mobdata.php?action=store');
 	$('#brand').load(hosturl+'mobdata.php?action=br');
-	$('#itmtype').load(hosturl+'mobdata.php?action=wtype');	
+	$('#itmtype').load(hosturl+'mobdata.php?action=wtype');
+	$('#stdate').load(hosturl+'mobdata.php?action=getdepostdate&depo_user_id='+localStorage.uid);	
+	$('#month').load(hosturl+'mobdata.php?action=getdepostmonth&depo_user_id='+localStorage.uid);	
+	$('#year').load(hosturl+'mobdata.php?action=getdepostyear&depo_user_id='+localStorage.uid);	
 	}); 
 	$(window).load(function() {
 	setInterval(function() {
@@ -70,8 +73,84 @@
 				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
 			}
 
-			$('#loaddata').load(hosturl+'mobdata.php?action=storestockreport&depo_id='+localStorage.uid+'&store_id='+st_id+brands+itemtypes);
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockreport&depo_id='+localStorage.uid+'&store_id='+st_id+itemtypes+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+brands);
 		});	
+		
+		$(document).on('change', '#stdate', function(){
+			var st_id = $('#store_id').val();
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var itm_tp = $( "#itmtype option:selected" ).val();
+			var storid = '';
+			var itemtypes = '';
+			if($( "#brand option:selected" ).val() == '')
+			{
+				itm_nm = '';
+			}
+			if(st_id != '')
+			{
+				storid = '&store_id='+st_id;
+			}
+			//alert(storid);
+			if($( "#itmtype option:selected" ).val() != '')
+			{
+				itemtypes = '&item_type='+itm_tp;
+				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+			}
+
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockreport&depo_id='+localStorage.uid+storid+itemtypes+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+'&item_nm='+itm_nm);
+	});	
+
+		$(document).on('change', '#month', function(){
+			var st_id = $('#store_id').val();
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var itm_tp = $( "#itmtype option:selected" ).val();
+			var storid = '';
+			var itemtypes = '';
+			if($( "#brand option:selected" ).val() == '')
+			{
+				itm_nm = '';
+			}
+			if(st_id != '')
+			{
+				storid = '&store_id='+st_id;
+			}
+			//alert(storid);
+			if($( "#itmtype option:selected" ).val() != '')
+			{
+				itemtypes = '&item_type='+itm_tp;
+				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+			}
+
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockreport&depo_id='+localStorage.uid+storid+itemtypes+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+'&item_nm='+itm_nm);
+	});	
+	
+		$(document).on('change', '#year', function(){
+			var st_id = $('#store_id').val();
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var itm_tp = $( "#itmtype option:selected" ).val();
+			var storid = '';
+			var itemtypes = '';
+			if($( "#brand option:selected" ).val() == '')
+			{
+				itm_nm = '';
+			}
+			if(st_id != '')
+			{
+				storid = '&store_id='+st_id;
+			}
+			//alert(storid);
+			if($( "#itmtype option:selected" ).val() != '')
+			{
+				itemtypes = '&item_type='+itm_tp;
+				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+			}
+
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockreport&depo_id='+localStorage.uid+storid+itemtypes+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+'&item_nm='+itm_nm);
+	});	
+	
 		
 		$(document).on('change', '#brand', function(){
 			var st_id = $('#store_id').val();
@@ -95,13 +174,15 @@
 				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
 			}
 
-			$('#loaddata').load(hosturl+'mobdata.php?action=storestockreport&depo_id='+localStorage.uid+'&item_nm='+itm_nm+storid+itemtypes);
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockreport&depo_id='+localStorage.uid+storid+itemtypes+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+'&item_nm='+itm_nm);
 		});	
 	
 		$(document).on('change', '#itmtype', function(){
+			$("#brand" ).val('');
+			var itm_nm = '';
+			$('#brand').load(hosturl+'data.php?act=winetype&type_id='+this.value, '', function(response, status, xhr) { });
+
 			var st_id = $('#store_id').val();
-			var itm_nm = $( "#brand option:selected" ).text();
-			itm_nm = itm_nm.replace(' ','%20');
 			var itm_tp = $( "#itmtype option:selected" ).val();
 			var storid = '';
 			var itemtypes = '';
@@ -111,13 +192,16 @@
 				storid = '&store_id='+st_id;
 			}
 			//alert(storid);
-			if($( "#brand option:selected" ).val() != '')
+			if($("#brand option:selected" ).val() != '')
 			{
+				itm_nm = $( "#brand option:selected" ).text();
+				itm_nm = itm_nm.replace(' ','%20');
+
 				brands = '&item_nm='+itm_nm;
-				//$('#loaddata').load(hosturl+'mobdata.php?action=depostrstockview&store_id='+st_id);
+
 			}
 			//	alert($( "#brand option:selected" ).val());
-			$('#loaddata').load(hosturl+'mobdata.php?action=storestockreport&depo_id='+localStorage.uid+'&item_type='+itm_tp+storid+brands);
+			$('#loaddata').load(hosturl+'mobdata.php?action=storestockreport&depo_id='+localStorage.uid+'&item_type='+itm_tp+storid+"&date="+$('#stdate').val()+"&month="+$('#month').val()+"&year="+$('#year').val()+brands);
 			
 		});		
 	
@@ -139,17 +223,31 @@
          </div>
           <div class="body padding">
           <div class="w-form">
+          <div class="w50" style="width:16%;">
+          <label class="label-form" for="stdate">Date:</label>
+          <select class="input-form select w-select" name="stdate" id="stdate"  > </select>
+          </div>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="month">Month:</label>
+          <select class="input-form select w-select" name="month" id="month"  > </select>
+          </div>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="year">Year:</label>
+          <select class="input-form select w-select" name="year" id="year"  > </select>
+          </div>
+
           <div class="w50">
           <label class="label-form" for="store_id">Filter By Store:</label>
           <select class="input-form select w-select" name="store_id" id="store_id"  > </select>
           </div>
-          <div class="w50">
-          <label class="label-form" for="brand">Filter By Brand:</label>
-          <select class="input-form select w-select" name="brand" id="brand"  > </select>
-          </div>
            <div class="w50">
           <label class="label-form" for="itmtype">Filter By Type:</label>
           <select class="input-form select w-select" name="itmtype" id="itmtype"  > </select>
+          </div>
+
+          <div class="w50">
+          <label class="label-form" for="brand">Filter By Brand:</label>
+          <select class="input-form select w-select" name="brand" id="brand"  > </select>
           </div>
           </div>
           </div>

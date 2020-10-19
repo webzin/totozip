@@ -41,6 +41,9 @@
 	$(function(){
 	var store_id = localStorage.storeid;
 	$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&storeid="+store_id); 
+	//$('#brand').load(hosturl+'mobdata.php?action=br');
+	$('#itmtype').load(hosturl+'mobdata.php?action=wtype');
+	$('#stdate').load(hosturl+'mobdata.php?action=getDateStReq&storeid='+store_id);	
 	$("#month").load(hosturl+"mobdata.php?action=getMonthStReq&storeid="+store_id); 
 	$("#year").load(hosturl+"mobdata.php?action=getYearStReq&storeid="+store_id); 
 
@@ -51,18 +54,104 @@
 	}, 3000);
 	});
 
-		$(document).on('change', '#month', function(){
+
+		$(document).on('change', '#stdate', function(){
+			var date = $( "#stdate option:selected" ).val();
 			var month = $( "#month option:selected" ).val();
 			var year = $( "#year option:selected" ).val();
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
 			
-			$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&storeid="+localStorage.storeid+"&month="+month+"&year="+year); 
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+			
+			}
+			
+			
+			$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&storeid="+localStorage.storeid+'&item_type='+$('#itmtype').val()+"&date="+date+"&month="+month+"&year="+year+brands); 
+		});		
+
+		$(document).on('change', '#month', function(){
+			var date = $( "#stdate option:selected" ).val();
+			var month = $( "#month option:selected" ).val();
+			var year = $( "#year option:selected" ).val();
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+			
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+			
+			}
+			
+			
+			$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&storeid="+localStorage.storeid+'&item_type='+$('#itmtype').val()+"&date="+date+"&month="+month+"&year="+year+brands); 
 		});		
 		$(document).on('change', '#year', function(){
+			var date = $( "#stdate option:selected" ).val();
+			var month = $( "#month option:selected" ).val();
+			var year = $( "#year option:selected" ).val();
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+			
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+			
+			}
+			
+			
+			$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&storeid="+localStorage.storeid+'&item_type='+$('#itmtype').val()+"&date="+date+"&month="+month+"&year="+year+brands); 
+		});		
+
+		$(document).on('change', '#itmtype', function(){
+
+			$("#brand" ).val('');
+			var itm_nm = '';
+			$('#brand').load(hosturl+'data.php?act=winetype&type_id='+this.value, '', function(response, status, xhr) { });
+			
+			var brands = '';			
+
+
+			var date = $( "#stdate option:selected" ).val();
 			var month = $( "#month option:selected" ).val();
 			var year = $( "#year option:selected" ).val();
 			
-			$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&storeid="+localStorage.storeid+"&month="+month+"&year="+year); 
+			
+			if($("#brand option:selected" ).val() != '')
+			{
+				itm_nm = $( "#brand option:selected" ).text();
+				itm_nm = itm_nm.replace(' ','%20');
+
+				brands = '&item_nm='+itm_nm;
+
+			}
+
+			$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&storeid="+localStorage.storeid+'&item_type='+$('#itmtype').val()+"&date="+date+"&month="+month+"&year="+year+brands); 
 		});		
+
+		$(document).on('change', '#brand', function(){
+			var date = $( "#stdate option:selected" ).val();
+			var month = $( "#month option:selected" ).val();
+			var year = $( "#year option:selected" ).val();
+			var itm_nm = $( "#brand option:selected" ).text();
+			itm_nm = itm_nm.replace(' ','%20');
+			var brands = '';
+			
+			if($( "#brand option:selected" ).val() != '')
+			{
+				brands = '&item_nm='+itm_nm;
+			
+			}
+			
+			
+			$("#loaddata").load(hosturl+"mobdata.php?action=stockreqrep&storeid="+localStorage.storeid+'&item_type='+$('#itmtype').val()+"&date="+date+"&month="+month+"&year="+year+brands); 
+		});		
+
     </script> 
 
    </head>
@@ -76,13 +165,26 @@
          
          <div class="body padding">
           <div class="w-form">
-          <div class="w50">
-          <label class="label-form" for="month">Filter By Month:</label>
+          <div class="w50" style="width:16%;">
+          <label class="label-form" for="stdate">Date:</label>
+          <select class="input-form select w-select" name="stdate" id="stdate"  > </select>
+          </div>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="month">Month:</label>
           <select class="input-form select w-select" name="month" id="month"  > </select>
           </div>
-          <div class="w50">
-          <label class="label-form" for="year">Filter By Year:</label>
+          <div class="w50" style="width:17%;">
+          <label class="label-form" for="year">Year:</label>
           <select class="input-form select w-select" name="year" id="year"  > </select>
+          </div>
+           <div class="w50" style="width:25%;">
+          <label class="label-form" for="itmtype">Filter By Type:</label>
+          <select class="input-form select w-select" name="itmtype" id="itmtype"  > </select>
+          </div>
+
+          <div class="w50" style="width:25%;">
+          <label class="label-form" for="brand">Filter By Brand:</label>
+          <select class="input-form select w-select" name="brand" id="brand"  > </select>
           </div>
           </div>
           </div> 
