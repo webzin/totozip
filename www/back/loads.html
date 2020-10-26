@@ -2,7 +2,7 @@
 <html>
    <head>
             <meta charset="utf-8">
-            <title>Warrant Reports</title>
+            <title>Load Records</title>
             <meta content="Profile" property="og:title">
             <meta content="width=device-width,initial-scale=1" name="viewport">
             <meta name="generator" content="SensationThemes">
@@ -39,12 +39,12 @@
 	}); 
 	
 	$(function(){
-	$("#loaddata").load(hosturl+"mobdata.php?action=warrep"); 
+	$("#loaddata").load(hosturl+"mobdata.php?action=loaddata"); 
 	}); 
 	$(window).load(function() {
 	setInterval(function() {
 	$("#loader").fadeOut("slow")
-	}, 3000);
+	}, 2000);
 	});
 	
     </script> 

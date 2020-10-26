@@ -13,13 +13,25 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
         <link href="css/ionicons.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-        
-        <script src="js/jquery.min.js" type="text/javascript"></script>
+    	<link href="css/select2.min.css" rel="stylesheet" />    
+	
+		<script src="js/jquery.min.js"></script>
+	
+ 		<script src="js/select2.min.js"></script>
+	
+
  	    <script type="text/javascript" src="js/jquery.validate.js"></script>
         <script src="js/modernizr.js" type="text/javascript"></script>
         <script src="js/webflow.js" type="text/javascript"></script>
         <script type="text/javascript" src="js/scripts.js"></script> 
         <script type="text/javascript">
+	jQuery(document).ready(function(){
+
+		$('.select2').select2({ closeOnSelect: false });
+
+	});
+
+
    	var url = window.location.pathname;
 	var filename = url.substring(url.lastIndexOf('/') + 1);
     if (localStorage.login == "true" && filename == 'login.html') {
@@ -38,6 +50,11 @@
     });
 	
 	$(document).ready(function(){
+
+	setTimeout(function(){
+		$('.select2').select2();
+	}, 100);
+
 		$('#store_id').load(hosturl+'mobdata.php?action=store', '', function(response, status, xhr) {
 	});
 		$('#item_id').load(hosturl+'mobdata.php?action=wname', '', function(response, status, xhr) {
@@ -72,7 +89,12 @@
 				$('select#store_id').attr("style", "pointer-events: none;");                
 				i++;
 			
-                $('#dynamic_field').append("<div class='w-col' id='row"+i+"'><div class='w-col-5 pullleft'><label class='label-form' for='winename-field'>Select Wine Name:</label><select class='input-form select w-select required'  name='item_id[]' id='item_id"+i+"'></select><div class='separator-fields'></div></div><div class='w-col-3 pullleft'><label class='label-form' for='qty'>Qty:</label><input class='input-form w-input required' data-name='qty' id='qty"+i+"' maxlength='256' name='qty[]'  type='number' value='' required><div class='separator-fields'></div></div> <div class='w-col-3 pullleft'><label class='label-form' for='total'>Total:</label><input class='input-form w-input' data-name='Total' id='totqty"+i+"' maxlength='256' name='total[]'  type='number' value='' disabled><div class='separator-fields'></div></div><div class='w-col-1 pullleft'><input id='"+i+"' class='action-button w-button btn_remove' type='button' name='remove' value='-' ></div></div>");
+                $('#dynamic_field').append("<div class='w-col' id='row"+i+"'><div class='w-col-5 pullleft'><label class='label-form' for='winename-field'>Select Wine Name:</label><select class='input-form select w-select select2 required'  name='item_id[]' id='item_id"+i+"'></select><div class='separator-fields'></div></div><div class='w-col-3 pullleft'><label class='label-form' for='qty'>Qty:</label><input class='input-form w-input required' data-name='qty' id='qty"+i+"' maxlength='256' name='qty[]'  type='number' value='' required><div class='separator-fields'></div></div> <div class='w-col-3 pullleft'><label class='label-form' for='total'>Total:</label><input class='input-form w-input' data-name='Total' id='totqty"+i+"' maxlength='256' name='total[]'  type='number' value='' readonly><div class='separator-fields'></div></div><div class='w-col-1 pullleft'><input id='"+i+"' class='action-button w-button btn_remove' type='button' name='remove' value='-' ></div></div>");
+				 
+				 	setTimeout(function(){
+						$('.select2').select2();
+					}, 100);
+				 
 				 $('#item_id'+i).load(hosturl+'mobdata.php?action=wname', '', function(response, status, xhr) {
 	});	
 				 $('#item_id'+i).focus();
@@ -194,7 +216,7 @@
                 <div class="w-col">
                       <div class="w-col-6 pullleft">
                         <label class="label-form" for="winename-field">Select Wine Name:</label>
-						<select class="input-form select w-select"  name="item_id[]" id="item_id"  required> 
+						<select class="input-form select w-select select2"  name="item_id[]" id="item_id"  required> 
                         	
                         </select>
 						 	
@@ -210,7 +232,7 @@
                       
                       <div class="w-col-3 pullleft"> 
                         <label class="label-form" for="total">Total:</label>
-						 <input class="input-form w-input" data-name="Total" id="totqty" maxlength="256" name="total[]"  type="number" value="" disabled>
+						 <input class="input-form w-input" data-name="Total" id="totqty" maxlength="256" name="total[]"  type="number" value="" readonly>
 						 
                         <div class="separator-fields"></div>
                       </div>

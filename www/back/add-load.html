@@ -2,7 +2,7 @@
 <html>
    <head>
         <meta charset="utf-8">
-        <title>Add Exependiture</title>
+        <title>Add Load</title>
         <meta content="width=device-width,initial-scale=1" name="viewport">
         <meta name="generator" content="SensationThemes">
         <link href="css/normalize.css" rel="stylesheet" type="text/css">
@@ -32,36 +32,49 @@
     </script>
  <script> 
     $(function(){
-		$("#navbarin").load("nav.html"); 
-		$("#footer").load("footer.html"); 
+      $("#navbarin").load("nav.html"); 
+    });
+	 $(function(){
+      $("#footer").load("footer.html"); 
     });
 	
- 	$(document).ready(function(){
+	$(document).ready(function(){
+	$('#customername').load(hosturl+'mobdata.php?action=cn', '', function(response, status, xhr) {
+	});
+	$('#building').load(hosturl+'mobdata.php?action=bu', '', function(response, status, xhr) {
+	});
 
- $('#addcash').validate({ // initialize the plugin
+ $('#addload').validate({ // initialize the plugin
         rules: {
-				cashmeta: {
-					required: true,
-				},
-				amount: {
-					required: true,
-					number: true,
-				} 
+            customername: {
+                required: true,
+            },
+			orderno: {
+                required: true,
+				number: true,
+            },
+			veichle: {
+                required: true,
+            },
+            building: {
+                required: true,
+            }
 			 },
 		 
        
     });
 
  //Add Warrant
-$("#addcash").submit(function(){
+$("#addload").submit(function(){
 	
-		var cashmeta=$("#cashmeta").val();
-		var amount=$("#amount").val();
-		var store_id = localStorage.storeid;
-		var user_id = localStorage.uid;
+		var customername=$("#customername").val();
+		var orderno=$("#orderno").val();
+		var veichle=$("#veichle").val();	
+		var building=$("#building").val();
+		var eml = localStorage.email;
 		
-		var dataString="cashmeta="+cashmeta+"&amount="+amount+"&store_id="+store_id+"&user_id="+user_id+"&daycash=";
-		if($.trim(cashmeta).length>0 & $.trim(amount).length>0 & $.trim(store_id).length>0 & $.trim(user_id).length>0)
+		var dataString="customername="+customername+"&orderno="+orderno+"&veichle="+veichle+"&building="+building+"&eml="+eml+"&load=";
+		if($.trim(customername).length>0 & $.trim(orderno).length>0 & $.trim(veichle).length>0 & $.trim(building).length>0)
 		
 		
                
@@ -72,7 +85,7 @@ $("#addcash").submit(function(){
 			data: dataString,
 			crossDomain: true,
 			cache: false,
-			beforeSend: function(){ $("#cashadd").val('Adding Exependiture...');},
+			beforeSend: function(){ $("#load").val('Load Adding...');},
 			success: function(data, status){
 			
 				var resp = $.parseJSON(data);
@@ -80,23 +93,25 @@ $("#addcash").submit(function(){
 				$('html, body').animate({ scrollTop: $('#main-stack').offset().top }, 500);
 				$('#sucessMessage').html(resp.value1);
 				$('#sucessMessage').show();
-				$('#sucessMessage').delay(2000).fadeOut();
-				$("#cashadd").val('Add Exependiture');
+				$('#sucessMessage').delay(5000).fadeOut();
+				$("#orderno").val(''); 
+				$("#orderno").focus();
+				$("#load").val('Add Load');
 				if(resp.value3=="S"){
-				 $("#addcash")[0].reset()
-				 }
+				localStorage.lid=resp.value2;
+				window.location.href = "add-warrant.html";
+				}
+				 
 			}
 			
 		});
-	}
-	
-	return false;
+	}return false;
 
 });
 
 
 
- });
+});
 
 
     </script>  
@@ -112,23 +127,29 @@ $("#addcash").submit(function(){
             <div class="body padding">
                <div class="w-form">
                <div id="sucessMessage"> </div>
-                  <form action="#" data-name="Day Cash" id="addcash" name="addcash">
+                  <form action="#" data-name="Add Load" id="addload" name="addload">
                      <div class="separator-button-input"></div>
-                     
-					  <div class="w501">
-                        <label class="label-form" for="cashmeta">Exependiture Head:</label>
-						<input class="input-form w-input" data-name="cashmeta" id="cashmeta"  name="cashmeta"  value="">
-						 
+                     <div>
+                        <label class="label-form" for="full-name-field">Customer Name:</label><select class="input-form select w-select" name="customername" id="customername"  >
+                        
+                        </select>
                         <div class="separator-fields"></div>
                      </div>
-                     <div class="w501">
-                        <label class="label-form" for="amount">Amount:</label>
-						<input class="input-form w-input" data-name="amount" id="amount" maxlength="256" name="amount"  type="number" value="">
+                     <div>
+                        <label class="label-form" for="email-field">Order Number:</label><input class="input-form w-input" data-name="orderno" id="orderno" maxlength="256" name="orderno"  type="number" value="" >
                         <div class="separator-fields"></div>
                      </div>
-                    
+                     <div>
+                        <label class="label-form" for="password-ield">Veichle/ Railcar/Truck # Number:</label><input class="input-form w-input" data-name="veichle" id="veichle" maxlength="256" name="veichle"  type="text" value="">
+                        <div class="separator-fields"></div>
+                     </div>
+                     <div>
+                        <label class="label-form" for="field">Building#:</label><select class="input-form select w-select"  name="building" id="building"  > 
+                        </select>
+                        <div class="separator-fields"></div>
+                     </div>
                      
-                     <input class="action-button w-button" data-wait="Please wait..." type="submit" value="Add Cash" id="cashadd">
+                     <input class="action-button w-button" data-wait="Please wait..." type="submit" value="Add Load" id="load">
                         <div class="separator-button"></div>
                   </form>
                </div>

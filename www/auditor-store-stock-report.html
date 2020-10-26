@@ -15,11 +15,21 @@
             <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
             <link href="css/ionicons.min.css" rel="stylesheet" type="text/css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-         <script src="js/jquery.min.js" type="text/javascript"></script>
+         <link href="css/select2.min.css" rel="stylesheet" />  
+         
+		<script src="js/jquery.min.js" type="text/javascript"></script>
+ 		<script src="js/select2.min.js" type="text/javascript"></script>
  		<script src="js/modernizr.js" type="text/javascript"></script>
 	   <script src="js/webflow.js" type="text/javascript"></script>
 	   <script type="text/javascript" src="js/scripts.js"></script> 
       <script type="text/javascript">
+	jQuery(document).ready(function(){
+
+		$('.select2').select2({ closeOnSelect: false });
+		setTimeout(function(){
+		$('.select2').select2();
+	}, 100);
+	});
     var url = window.location.pathname;
     var filename = url.substring(url.lastIndexOf('/') + 1);
     if (localStorage.login == "true" && filename == 'login.html') {
@@ -215,7 +225,7 @@
           </div>
           <div class="w50" style="width:40%">
           	<label class="label-form" for="item_id">Filter By Item:</label>
-          	<select class="input-form select w-select" name="item_id" id="item_id"  > </select>
+          	<select class="input-form select w-select select2" name="item_id" id="item_id"  > </select>
           </div>
           <div class="w50" style="width:30%">
           	<label class="label-form" for="item_id">Filter By Item Type:</label>
