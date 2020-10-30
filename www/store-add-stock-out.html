@@ -147,6 +147,11 @@ $('#beparidv').hide();
 			contentType: false,
 			processData: false,
 			//data: $('#additem').serialize(),
+			beforeSend: function(){
+				$("#stockout").val('Please wait................');
+				$("#new-stack").css("opacity", "1");
+				$("#stockout").prop('disabled', true);
+				},
             success: function(data, status) {
 				var resp = $.parseJSON(data);
 				$('html, body').animate({ scrollTop: $('#main-stack').offset().top }, 500);
@@ -155,6 +160,9 @@ $('#beparidv').hide();
 				
 				if(resp.msg=="success"){
 					$("#stockin")[0].reset(); 
+				$("#stockout").val('Stock Out');
+				$("#new-stack").css("opacity", "0");
+				$("#stockout").prop('disabled', false);
 				}
 				
 				if(resp.value2=="S"){

@@ -24,7 +24,7 @@
 $( document ).ready(function() {
   return timedRedirect();
 });
-redirectTime = "5000";
+redirectTime = "1000";
 redirectURL = "networkstatus.html";
 function timedRedirect() {
 	$(".meter > span").each(function() {
@@ -33,7 +33,7 @@ function timedRedirect() {
 					.width(0)
 					.animate({
 						width: $(this).data("origWidth")
-					}, 5000);
+					}, 1000);
 			});
 	setTimeout("location.href = redirectURL;",redirectTime);
 }

@@ -165,14 +165,23 @@
 			contentType: false,
 			processData: false,
 			//data: $('#additem').serialize(),
+			beforeSend: function(){
+				$("#stockinbtn").val('Please wait................');
+				$("#new-stack").css("opacity", "1");
+				$("#stockinbtn").prop('disabled', true);
+				},
             success: function(data, status) {
 				var resp = $.parseJSON(data);
 				$('html, body').animate({ scrollTop: $('#main-stack').offset().top }, 500);
 				$('#sucessMessage').html(resp.value1);
 				$('#sucessMessage').show();
+
 				
 				if(resp.msg=="success"){
 					$("#stockin")[0].reset(); 
+					$("#stockinbtn").val('Stock In');
+				 	$("#new-stack").css("opacity", "0");
+					$("#stockinbtn").prop('disabled', false);
 				}
 				
 				if(resp.value2=="S"){
@@ -246,12 +255,12 @@
                 </div>
                 <div>
                 <label class="label-form" for="chalanfile">Chalan File:</label>
-                <input class="input-form w-input" data-name="chalanfile" id="chalanfile" name="chalanfile"  type="file" value="">
+                <input class="input-form w-input" data-name="chalanfile" id="chalanfile" name="chalanfile"  type="file" value="" accept="image/*">
                 <div class="separator-fields"></div>
                 </div>
                 
                 
-                <input class="action-button w-button" data-wait="Please wait..." type="submit" value="Stock In" name="stockin" id="stockin" style="width:30%">
+                <input class="action-button w-button" data-wait="Please wait..." type="submit" value="Stock In" name="stockin" id="stockinbtn" style="width:30%">
                 <input class="action-button w-button" data-wait="Please wait..." type="button" value="+" name="add" id="add" style="width:10%"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
                 <div class="separator-button"></div>
                 </form>
